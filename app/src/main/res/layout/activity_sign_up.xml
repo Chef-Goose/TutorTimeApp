@@ -12,8 +12,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
         android:orientation="vertical">
 
 
@@ -182,15 +182,20 @@
                 android:textSize="14sp"
                 tools:ignore="HardcodedText" />
 
-            <TextView
-                android:id="@+id/txtSignIn"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSignIn"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="31dp"
+                android:backgroundTint="@color/black"
                 android:fontFamily="serif-monospace"
-                android:text="Sign in"
+                android:paddingStart="2dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="2dp"
+                android:paddingBottom="2dp"
+                android:text="Sign In"
                 android:textColor="#E00E0E"
-                android:layout_marginStart="10dp"
                 android:textSize="14sp"
+                app:cornerRadius="10dp"
                 tools:ignore="HardcodedText" />
 
 

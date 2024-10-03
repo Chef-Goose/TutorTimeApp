@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
         enableEdgeToEdge()
         setContentView(R.layout.activity_login)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -18,10 +19,10 @@ class LoginActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val btnSignIn = findViewById<Button>(R.id.btnSignIn)
-        btnSignIn.setOnClickListener {
-            val Intent = Intent(this,SignUpActivity::class.java)
-            startActivity(Intent)
+        val btnSignUp = findViewById<Button>(R.id.btnSignUp)
+        btnSignUp.setOnClickListener {
+            val intent = Intent(this@LoginActivity,SignUpActivity::class.java)
+            startActivity(intent)
         }
     }
 

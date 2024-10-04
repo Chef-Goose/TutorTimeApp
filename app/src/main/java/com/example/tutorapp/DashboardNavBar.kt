@@ -8,27 +8,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class LoginActivity : AppCompatActivity() {
+class DashboardNavBar : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         supportActionBar?.hide()
+        super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_dashboard)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val btnSignUp = findViewById<Button>(R.id.btnSignUp)
-        btnSignUp.setOnClickListener {
-            val intent = Intent(this@LoginActivity,SignUpActivity::class.java)
-            startActivity(intent)
-        }
-        val btnSignIn = findViewById<Button>(R.id.btnSignIn)
-        btnSignIn.setOnClickListener {
-            val intent = Intent(this@LoginActivity,DashboardNavBar::class.java)
-            startActivity(intent)
-        }
     }
-
 }

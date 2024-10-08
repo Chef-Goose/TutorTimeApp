@@ -4,32 +4,94 @@
 
     <application
         android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TutorApp"
-        tools:targetApi="31"
-        tools:ignore="ExtraText">
+        android:theme="@style/Theme.TutorApp">
+
         <activity
-            android:name=".SignUpActivity"
-            android:label="SignUp"
-            android:exported="false" />
+            android:name=".MainActivity"
+            android:label="Splash Screen"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".LoginActivity"
             android:label="Login"
+            android:exported="true" />
+
+        <activity
+            android:name=".SignUpActivity"
+            android:label="Sign Up"
+            android:exported="false" />
+
+        <activity
+            android:name=".DashboardNavBar"
+            android:label="Dashboard"
+            android:exported="false" />
+
+        <activity
+            android:name=".SignOutActivity"
+            android:label="Sign Out"
+            android:exported="true" />
+
+        <activity
+            android:name=".StudentProfile"
+            android:label="Student Profile"
+            android:exported="false" />
+
+        <activity
+            android:name=".TutorProfile"
+            android:label="Tutor Profile"
+            android:exported="false" />
+
+        <activity
+            android:name=".CalenderActivity"
+            android:label="Calender"
+            android:exported="false" />
+
+        <activity
+            android:name=".EditProfile"
+            android:label="Edit Profile"
+            android:exported="false" />
+
+        <activity
+            android:name=".MessagesActivity"
+            android:label="Messages"
+            android:exported="false" />
+
+        <activity
+            android:name=".EditTutorProfile"
+            android:label="EditTutor"
+            android:exported="false" />
+
+        <activity
+            android:name=".TutorDashboardNavBar"
+            android:label="TutorDashboard"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:label="@string/app_name"/>
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:name=".TutorProfileLogIn"
+            android:label="TutorLogin"
+            android:exported="false" />
+        <activity
+            android:name=".TutorMessagesActivity"
+            android:label="TutorMessages"
+            android:exported="false" />
+        <activity
+            android:name=".TutorCalenderActivity"
+            android:label="TutorCalender"
+            android:exported="false" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <activity
+            android:name=".TutorLoginActivitytest"
+            android:label="TutorLoginPage"
+            android:exported="false" />
+
     </application>
 
 </manifest>

@@ -125,7 +125,7 @@
         android:id="@+id/subject_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start Booking Now!"
+        android:text="Start Tutoring Now!"
         android:layout_above="@id/home_button"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="50dp"

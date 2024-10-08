@@ -26,7 +26,7 @@ class TutorDashboardNavBar : AppCompatActivity() {
         }
         val btnSignOut = findViewById<ImageButton>(R.id.sign_out_button)
         btnSignOut.setOnClickListener {
-            val intent = Intent(this@TutorDashboardNavBar,SignOutActivity::class.java)
+            val intent = Intent(this@TutorDashboardNavBar,TutorSignOutActivity::class.java)
             startActivity(intent)
         }
 

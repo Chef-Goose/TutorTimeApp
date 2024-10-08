@@ -88,6 +88,11 @@
             android:exported="false" />
 
         <activity
+            android:name=".TutorSignOutActivity"
+            android:label="TutorSignOut"
+            android:exported="false" />
+
+        <activity
             android:name=".TutorLoginActivitytest"
             android:label="TutorLoginPage"
             android:exported="false" />

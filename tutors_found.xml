@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/editTextDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="date"
+        android:text="Date: 10/10/24"
+        tools:layout_editor_absoluteX="100dp"
+        tools:layout_editor_absoluteY="88dp" />
+
+    <EditText
+        android:id="@+id/tb_CourseName"
+        android:layout_width="200dp"
+        android:layout_height="46dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Course: CMPT 201"
+        tools:layout_editor_absoluteX="31dp"
+        tools:layout_editor_absoluteY="187dp" />
+
+    <EditText
+        android:id="@+id/editTextText2"
+        android:layout_width="202dp"
+        android:layout_height="44dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Module: Pointers"
+        tools:layout_editor_absoluteX="30dp"
+        tools:layout_editor_absoluteY="275dp" />
+
+
+    <EditText
+        android:id="@+id/editTextText3"
+        android:layout_width="143dp"
+        android:layout_height="38dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Tutors Found:"
+        tools:layout_editor_absoluteX="134dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="319dp">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Tutor Name:"
+            android:padding="8dp" />
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Certificates:"
+            android:padding="8dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Time:"
+            android:padding="8dp" />
+
+</TableRow>
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Tom Mazor"
+                android:padding="8dp" />
+
+            <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="CMPT Major"
+            android:padding="8dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="12:00PM"
+                android:padding="8dp" />
+    </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="John Doe"
+                android:padding="8dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="CMPT Professor"
+                android:padding="8dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="5:00PM"
+                android:padding="8dp" />
+        </TableRow>
+
+
+
+    </TableLayout>
+
+    <Button
+        android:id="@+id/btn_book"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Book"
+        tools:layout_editor_absoluteX="165dp"
+        tools:layout_editor_absoluteY="645dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

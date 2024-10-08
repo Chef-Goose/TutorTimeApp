@@ -2,6 +2,7 @@ package com.example.tutorapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -45,6 +46,18 @@ class DashboardNavBar : AppCompatActivity() {
         val btnMessages = findViewById<ImageButton>(R.id.notification_button)
         btnMessages.setOnClickListener {
             val intent = Intent(this@DashboardNavBar,MessagesActivity::class.java)
+            startActivity(intent)
+        }
+
+        val btnBook = findViewById<Button>(R.id.subject_button)
+        btnBook.setOnClickListener {
+            val intent = Intent(this@DashboardNavBar,StudentSearch::class.java)
+            startActivity(intent)
+        }
+
+        val btnNoti = findViewById<ImageButton>(R.id.notification)
+        btnNoti.setOnClickListener {
+            val intent = Intent(this@DashboardNavBar,NotificationActivity::class.java)
             startActivity(intent)
         }
 

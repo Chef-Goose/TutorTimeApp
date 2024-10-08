@@ -9,38 +9,28 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class TutorProfile : AppCompatActivity() {
+class TutorAvailable : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         supportActionBar?.hide()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.tutor_profile)
+        setContentView(R.layout.tutor_availability)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val btnHomeScr = findViewById<ImageButton>(R.id.home_button)
-        btnHomeScr.setOnClickListener {
-            val intent = Intent(this@TutorProfile,DashboardNavBar::class.java)
-            startActivity(intent)
-        }
-
         val btnBack = findViewById<ImageButton>(R.id.back_button)
         btnBack.setOnClickListener {
-            val intent = Intent(this@TutorProfile,StudentEnroll::class.java)
+            val intent = Intent(this@TutorAvailable,TutorDashboardNavBar::class.java)
             startActivity(intent)
         }
 
-        val btnMessage = findViewById<Button>(R.id.messagebtn)
-        btnMessage.setOnClickListener {
-            val intent = Intent(this@TutorProfile,SoloMessagesActivity::class.java)
+        val btnSearch = findViewById<Button>(R.id.btn_StartSearch)
+        btnSearch.setOnClickListener {
+            val intent = Intent(this@TutorAvailable,TutorDashboardNavBar::class.java)
             startActivity(intent)
         }
-        val btnBook = findViewById<Button>(R.id.bookSessionBtn)
-        btnBook.setOnClickListener {
-            val intent = Intent(this@TutorProfile,DashboardNavBar::class.java)
-            startActivity(intent)
-        }
+
     }
 }

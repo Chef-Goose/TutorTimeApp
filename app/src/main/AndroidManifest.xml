@@ -97,6 +97,34 @@
             android:label="TutorLoginPage"
             android:exported="false" />
 
+        <activity
+            android:name=".StudentSearch"
+            android:label="SearchClass"
+            android:exported="false" />
+
+        <activity
+            android:name=".StudentEnroll"
+            android:label="Enroll"
+            android:exported="false" />
+
+        <activity
+            android:name=".NotificationActivity"
+            android:label="Notification"
+            android:exported="false" />
+
+        <activity
+            android:name=".TutorNotificationActivity"
+            android:label="TutorNotification"
+            android:exported="false" />
+        <activity
+            android:name=".SoloMessagesActivity"
+            android:label="SoloMessage"
+            android:exported="false" />
+        <activity
+            android:name=".TutorAvailable"
+            android:label="Availability"
+            android:exported="false" />
+
     </application>
 
 </manifest>

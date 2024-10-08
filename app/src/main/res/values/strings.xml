@@ -3,4 +3,12 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="jonathan_smith">Jonathan Smith</string>
+    <string name="subjects_mathematics_physics">Subjects: Mathematics, Physics</string>
+    <string name="bio_experienced_tutor_with_a_strong_background_in_mathematics_and_physics_passionate_about_helping_students_excel_in_their_studies">Bio: Experienced tutor with a strong background in Mathematics and Physics. Passionate about helping students excel in their studies.</string>
+    <string name="contact_jonathansmith_gmail_com">Contact: jonathansmith@gmail.com</string>
+    <string name="book_a_session">Book a Session</string>
+    <string name="age_25">Age: 25</string>
+    <string name="phd_electrical_engineering">PHD:Electrical Engineering</string>
+    <string name="age_28" />
 </resources>

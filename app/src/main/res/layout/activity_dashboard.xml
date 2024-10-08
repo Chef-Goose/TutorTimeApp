@@ -48,6 +48,20 @@
         android:layout_marginStart="16dp"
         android:src="@drawable/baseline_logout_24" />
 
+    <ImageButton
+        android:id="@+id/notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign Out"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/transparent"
+        android:textColor="@android:color/white"
+        android:padding="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="173dp"
+        android:src="@drawable/ic_notifications_black_24dp" />
+
     <!-- Notification Button at the Top Right -->
     <ImageButton
         android:id="@+id/notification_button"

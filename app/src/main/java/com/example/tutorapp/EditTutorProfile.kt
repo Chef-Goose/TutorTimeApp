@@ -25,6 +25,11 @@ class EditTutorProfile : AppCompatActivity() {
             val intent = Intent(this@EditTutorProfile,TutorProfileLogIn::class.java)
             startActivity(intent)
         }
+        val btnSave = findViewById<Button>(R.id.save_button)
+        btnSave.setOnClickListener {
+            val intent = Intent(this@EditTutorProfile,TutorProfileLogIn::class.java)
+            startActivity(intent)
+        }
     }
 
 }

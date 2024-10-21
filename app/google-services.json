@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "858997999751",
+    "project_id": "tutor-app-1a08e",
+    "storage_bucket": "tutor-app-1a08e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858997999751:android:de9d9999020d4d1ac61022",
+        "android_client_info": {
+          "package_name": "com.example.tutorapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "REMOVED"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

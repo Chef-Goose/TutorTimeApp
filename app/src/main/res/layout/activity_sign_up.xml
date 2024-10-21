@@ -73,15 +73,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
             android:hint="Full Name"
             android:textColorHint="@color/white"
             app:boxStrokeColor="#FFFFFF">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputFullName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="serif-monospace"
-                android:inputType="text"
+                android:inputType="textPersonName"
                 android:singleLine="true"
                 android:textColor="#FFFFFF" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -97,6 +99,7 @@
             app:boxStrokeColor="#FFFFFF">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="serif-monospace"
@@ -117,6 +120,7 @@
             app:boxStrokeColor="#FFFFFF">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="serif-monospace"

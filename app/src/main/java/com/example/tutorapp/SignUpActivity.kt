@@ -63,16 +63,7 @@ class SignUpActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             }
 
-            val concatId = database.push().key!!
-            val User = Users(concatId,fullName, email, password)
-            database.child(concatId).setValue(User).addOnSuccessListener {
 
-                Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-
-            }.addOnFailureListener{
-                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-
-            }
             if (selectedId != -1) {
                 val radioButton = findViewById<RadioButton>(selectedId)
 
@@ -80,8 +71,28 @@ class SignUpActivity : AppCompatActivity() {
 
 
                 val intent = if (radioButton.id == R.id.radio_tutor) {
+                    val concatId = database.push().key!!
+                    val User = Users(concatId,fullName, email, password, "tutor")
+                    database.child(concatId).setValue(User).addOnSuccessListener {
+
+                        Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
+
+                    }.addOnFailureListener{
+                        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+
+                    }
                     Intent(this@SignUpActivity, TutorLoginActivitytest::class.java)
                 } else {
+                    val concatId = database.push().key!!
+                    val User = Users(concatId,fullName, email, password, "student")
+                    database.child(concatId).setValue(User).addOnSuccessListener {
+
+                        Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
+
+                    }.addOnFailureListener{
+                        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+
+                    }
                     Intent(this@SignUpActivity, LoginActivity::class.java)
                 }
                 startActivity(intent)

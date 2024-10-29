@@ -124,6 +124,11 @@
             android:name=".TutorAvailable"
             android:label="Availability"
             android:exported="false" />
+        <activity
+            android:name=".TutorTimeSelection"
+            android:label="TimeSelection"
+            android:exported="false" />
+
 
     </application>
 

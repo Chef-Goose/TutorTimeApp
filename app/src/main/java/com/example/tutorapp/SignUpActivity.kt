@@ -11,6 +11,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.tutorapp.ui.hashPassword
+
 
 
 
@@ -49,54 +51,68 @@ class SignUpActivity : AppCompatActivity() {
         btnSignUp.setOnClickListener {
             val radioGroupUserType = findViewById<RadioGroup>(R.id.radioGroupUserType)
             val selectedId = radioGroupUserType.checkedRadioButtonId
-
-
-
             val fullName = findViewById<TextInputEditText>(R.id.inputFullName).text.toString()
             val email = findViewById<TextInputEditText>(R.id.inputEmail).text.toString()
             val password = findViewById<TextInputEditText>(R.id.inputPassword).text.toString()
+            val confirmPassword = findViewById<TextInputEditText>(R.id.ConfirmPassword).text.toString()
 
-            if (fullName.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
-                // Perform Firebase operation, e.g., send data to Firebase Realtime Database
-                Toast.makeText(this, "Full Name: $fullName\nEmail: $email", Toast.LENGTH_LONG).show()
-            } else {
+            // Check if all fields are filled
+            if (fullName.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
 
+            // Check if user type is selected
+            if (selectedId == -1) {
+                Toast.makeText(this, "Please select whether you are a tutor or student", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
-            if (selectedId != -1) {
-                val radioButton = findViewById<RadioButton>(selectedId)
+            // Validate email format
+            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                Toast.makeText(this, "Invalid email format", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
+            // Check password length and confirm password
+            if (password.length < 6) {
+                Toast.makeText(this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
+            if (password != confirmPassword) {
+                Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
+            // Hash the password before saving it to Firebase
+            val hashedPassword = hashPassword(password)
 
-                val intent = if (radioButton.id == R.id.radio_tutor) {
-                    val concatId = database.push().key!!
-                    val User = Users(concatId,fullName, email, password, "tutor")
-                    database.child(concatId).setValue(User).addOnSuccessListener {
+            // Check if email already exists in Firebase
+            database.orderByChild("email").equalTo(email).get()
+                .addOnSuccessListener { dataSnapshot ->
+                    if (dataSnapshot.exists()) {
+                        Toast.makeText(this, "Email is already registered", Toast.LENGTH_SHORT).show()
+                    } else {
+                        // Email does not exist; proceed with saving the new user
+                        val userType = if (selectedId == R.id.radio_tutor) "tutor" else "student"
+                        val concatId = database.push().key!!
+                        val user = Users(concatId, fullName, email, hashedPassword, userType)
 
-                        Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
+                        database.child(concatId).setValue(user).addOnSuccessListener {
+                            Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
+                            startActivity(intent)
 
-                    }.addOnFailureListener{
-                        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-
+                        }.addOnFailureListener {
+                            Toast.makeText(this, "Failed to save user data", Toast.LENGTH_SHORT).show()
+                        }
                     }
-                    Intent(this@SignUpActivity, TutorLoginActivitytest::class.java)
-                } else {
-                    val concatId = database.push().key!!
-                    val User = Users(concatId,fullName, email, password, "student")
-                    database.child(concatId).setValue(User).addOnSuccessListener {
-
-                        Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()
-
-                    }.addOnFailureListener{
-                        Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
-
-                    }
-                    Intent(this@SignUpActivity, LoginActivity::class.java)
+                }.addOnFailureListener { error ->
+                    Toast.makeText(this, "Error checking email: ${error.message}", Toast.LENGTH_SHORT).show()
                 }
-                startActivity(intent)
-            }
         }
+
+
     }
 }

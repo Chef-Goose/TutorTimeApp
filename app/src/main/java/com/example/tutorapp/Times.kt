@@ -6,7 +6,7 @@ data class Person(val personID: String? = null, val courseName: String? = null )
 
 
 class TimesDatabase{
-    private val database: DatabaseReference = FirebaseDatabase.getInstance().reference
+    private val database: DatabaseReference = FirebaseDatabase.getInstance().getReference("Times")
 
     fun writePersonForTime(time: String){
         val person = Person("Tom","Math")

@@ -31,6 +31,9 @@ class MessagesActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private var tutorList: List<Users> = emptyList()
     private var selectedTutorID: String = "" // Selected tutor ID
+    private lateinit var messagesListener: ValueEventListener
+    private lateinit var sentMessagesListener: ValueEventListener
+    private var isUpdatingMessages = false // Flag to prevent duplicate loading
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,49 +98,58 @@ class MessagesActivity : AppCompatActivity() {
         messagesList.clear() // Clear current list
         Log.d("MessagesActivity", "Loading messages for tutor ID: $selectedTutorID")
 
-        // Load received messages
-        database.orderByChild("receiverID").equalTo(currentUserID)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    for (snapshot in dataSnapshot.children) {
-                        val message = snapshot.getValue(Message::class.java)
-                        if (message != null && message.senderID == selectedTutorID) {
-                            messagesList.add(message) // Add received message
-                            Log.d("MessagesActivity", "Received message: ${message.message}")
-                        }
-                    }
-                    loadSentMessages() // Load sent messages after received messages
-                }
+        // Load messages where the current user is the receiver
+        messagesListener = database.orderByChild("receiverID").equalTo(currentUserID).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (isUpdatingMessages) return // Prevent loading while sending a message
 
-                override fun onCancelled(error: DatabaseError) {
-                    Log.e("MessagesActivity", "Error loading messages: ${error.message}")
+                messagesList.clear() // Clear previous messages
+
+                for (snapshot in dataSnapshot.children) {
+                    val message = snapshot.getValue(Message::class.java)
+                    if (message != null && message.senderID == selectedTutorID) {
+                        messagesList.add(message) // Add received message
+                        Log.d("MessagesActivity", "Received message: ${message.message}")
+                    }
                 }
-            })
+                loadSentMessages() // Load sent messages after received messages
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("MessagesActivity", "Error loading messages: ${error.message}")
+            }
+        })
     }
 
     private fun loadSentMessages() {
-        database.orderByChild("senderID").equalTo(currentUserID)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    for (snapshot in dataSnapshot.children) {
-                        val message = snapshot.getValue(Message::class.java)
-                        if (message != null && message.receiverID == selectedTutorID) {
-                            messagesList.add(message) // Add sent message
-                            Log.d("MessagesActivity", "Sent message: ${message.message}")
-                        }
+        sentMessagesListener = database.orderByChild("senderID").equalTo(currentUserID).addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (isUpdatingMessages) return // Prevent loading while sending a message
+
+                val newMessages = mutableListOf<Message>()
+                for (snapshot in dataSnapshot.children) {
+                    val message = snapshot.getValue(Message::class.java)
+                    if (message != null && message.receiverID == selectedTutorID) {
+                        newMessages.add(message) // Collect sent messages
+                        Log.d("MessagesActivity", "Sent message: ${message.message}")
                     }
-
-                    // Sort messages by timestamp
-                    messagesList.sortBy { it.timestamp } // Sort using the String timestamp
-                    Log.d("MessagesActivity", "Total messages: ${messagesList.size}")
-                    messageAdapter.notifyDataSetChanged() // Notify adapter of new items
-                    recyclerView.scrollToPosition(messagesList.size - 1) // Scroll to the last message
                 }
 
-                override fun onCancelled(error: DatabaseError) {
-                    Log.e("MessagesActivity", "Error loading messages: ${error.message}")
-                }
-            })
+                // Add new messages to the list without duplicates
+                messagesList.removeAll { msg -> newMessages.any { it.messageID == msg.messageID } }
+                messagesList.addAll(newMessages)
+
+                // Sort messages by timestamp
+                messagesList.sortBy { it.timestamp }
+                Log.d("MessagesActivity", "Total messages: ${messagesList.size}")
+                messageAdapter.notifyDataSetChanged() // Notify adapter of new items
+                recyclerView.scrollToPosition(messagesList.size - 1) // Scroll to the last message
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("MessagesActivity", "Error loading messages: ${error.message}")
+            }
+        })
     }
 
     private fun loadTutors() {
@@ -171,12 +183,14 @@ class MessagesActivity : AppCompatActivity() {
         val timestamp = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).format(Date())
 
         val message = Message(
+            messageID = messageID, // Assign the message ID here
             senderID = currentUserID,
             receiverID = receiverID,
             message = messageText,
             timestamp = timestamp // Store the timestamp as a formatted String
         )
 
+        isUpdatingMessages = true // Set the flag to prevent duplicate loading
         // Save the message in the database
         database.child(messageID).setValue(message)
             .addOnSuccessListener {
@@ -188,5 +202,14 @@ class MessagesActivity : AppCompatActivity() {
             .addOnFailureListener { error ->
                 Toast.makeText(this, "Error sending message: ${error.message}", Toast.LENGTH_SHORT).show()
             }
+            .addOnCompleteListener {
+                isUpdatingMessages = false // Reset the flag after sending
+            }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        database.removeEventListener(messagesListener)
+        database.removeEventListener(sentMessagesListener)
     }
 }

@@ -14,4 +14,5 @@
         android:maxWidth="300dp"
         android:background="@drawable/message_background"
         android:layout_gravity="start" />
+
 </LinearLayout>

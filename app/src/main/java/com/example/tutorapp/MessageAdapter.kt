@@ -28,7 +28,7 @@ class MessageAdapter(private val messages: List<Message>, private val currentUse
         if (message.senderID == currentUserID) {
             holder.messageText.setBackgroundResource(R.drawable.sent_message_background)
             val layoutParams = holder.messageText.layoutParams as ViewGroup.MarginLayoutParams
-            layoutParams.marginStart = 100 // Align to the right
+            layoutParams.marginStart = 500 // Align to the right
             layoutParams.marginEnd = 0
             holder.messageText.layoutParams = layoutParams
             holder.messageText.gravity = Gravity.END // Align text to the end

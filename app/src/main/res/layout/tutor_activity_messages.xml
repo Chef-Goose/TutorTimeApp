@@ -25,7 +25,7 @@
         android:layout_centerHorizontal="true"/>
 
     <Spinner
-        android:id="@+id/tutor_spinner"
+        android:id="@+id/student_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/chat_title"
@@ -37,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="470dp"
         android:layout_weight="1"
-        android:layout_below="@id/tutor_spinner"
+        android:layout_below="@id/student_spinner"
         android:layout_marginTop="8dp"
         android:padding="8dp"
         android:clipToPadding="false" />

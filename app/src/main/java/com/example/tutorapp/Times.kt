@@ -9,7 +9,7 @@ class TimesDatabase{
     private val database: DatabaseReference = FirebaseDatabase.getInstance().getReference("Times")
 
     fun writePersonForTime(time: String){
-        val person = Person("Tom","Math")
+        val person = Person("Puff","Diddy")
 
         database.child("Monday1").child(time).setValue(person)
     }

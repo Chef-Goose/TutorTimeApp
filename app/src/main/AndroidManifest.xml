@@ -122,7 +122,7 @@
             android:label="SoloMessage"
             android:exported="false" />
         <activity
-            android:name=".TutorAvailable"
+            android:name=".TutorAvailabilityActivity"
             android:label="Availability"
             android:exported="false" />
         <activity

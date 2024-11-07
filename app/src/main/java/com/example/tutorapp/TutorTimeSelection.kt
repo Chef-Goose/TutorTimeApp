@@ -24,7 +24,7 @@ class TutorTimeSelection: AppCompatActivity() {
         }
         val btnBack = findViewById<ImageButton>(R.id.back_button)
         btnBack.setOnClickListener {
-            val intent = Intent(this@TutorTimeSelection,TutorAvailable::class.java)
+            val intent = Intent(this@TutorTimeSelection,TutorAvailabilityActivity::class.java)
             startActivity(intent)
         }
 

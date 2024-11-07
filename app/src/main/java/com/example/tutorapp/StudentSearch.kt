@@ -3,34 +3,61 @@ package com.example.tutorapp
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import android.widget.ImageButton
-import androidx.activity.enableEdgeToEdge
+import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import android.widget.CalendarView
+import android.widget.ImageButton
+import java.util.Calendar
 
 class StudentSearch : AppCompatActivity() {
+
+    private lateinit var spinnerCourses: Spinner
+    private lateinit var calendarView: CalendarView
+    private lateinit var btnSearch: Button // Button for search action
+
+    // To store the selected date in milliseconds
+    private var selectedDateMillis: Long = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        supportActionBar?.hide()
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.course_choice)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+        // Initialize views
+        spinnerCourses = findViewById(R.id.spinner_courses)
+        calendarView = findViewById(R.id.calendarView)
+        btnSearch = findViewById(R.id.btn_StartSearch) // Initialize the Button
+
+        // Set up the CalendarView to listen for date changes
+        calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
+            // Convert the selected year, month, and day to a Date object in milliseconds
+            val calendar = Calendar.getInstance()
+            calendar.set(year, month, dayOfMonth, 0, 0, 0)  // Set time to midnight (00:00:00)
+            calendar.set(Calendar.MILLISECOND, 0)
+
+            // Store the selected date in milliseconds
+            selectedDateMillis = calendar.timeInMillis
         }
+
+        // Search button click listener
+        btnSearch.setOnClickListener {
+            val selectedCourse = spinnerCourses.selectedItem.toString()
+
+            if (selectedCourse != "Select Course" && selectedDateMillis != 0L) {
+                // Pass data to the next activity (StudentEnroll)
+                val intent = Intent(this@StudentSearch, StudentEnroll::class.java)
+                intent.putExtra("selectedCourse", selectedCourse)
+                intent.putExtra("selectedDate", selectedDateMillis)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Please select both a course and a date", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Back Button logic
         val btnBack = findViewById<ImageButton>(R.id.back_button)
         btnBack.setOnClickListener {
-            val intent = Intent(this@StudentSearch,DashboardNavBar::class.java)
-            startActivity(intent)
+            onBackPressed()  // Go back to the previous activity
         }
-
-        val btnSearch = findViewById<Button>(R.id.btn_StartSearch)
-        btnSearch.setOnClickListener {
-            val intent = Intent(this@StudentSearch,StudentEnroll::class.java)
-            startActivity(intent)
-        }
-
     }
 }

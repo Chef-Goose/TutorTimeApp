@@ -1,4 +1,5 @@
 <resources>
+    <!-- Existing strings -->
     <string name="app_name">TutorApp</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
@@ -11,4 +12,27 @@
     <string name="age_25">Age: 25</string>
     <string name="phd_electrical_engineering">PHD:Electrical Engineering</string>
     <string name="age_28" />
+
+    <!-- Spinner and Selection Strings -->
+    <string-array name="course_list">
+        <item>Select Course</item>
+        <item>Mathematics</item>
+        <item>Science</item>
+        <item>Social Studies</item>
+        <item>English</item>
+    </string-array>
+
+    <string-array name="time_list">
+        <item>Select Time</item>
+        <item>4:00 PM</item>
+        <item>5:00 PM</item>
+        <item>6:00 PM</item>
+        <item>7:00 PM</item>
+        <item>8:00 PM</item>
+        <item>9:00 PM</item>
+    </string-array>
+
+    <!-- Spinner Hint Strings -->
+    <string name="select_course_hint">Select Course</string>
+    <string name="select_time_hint">Select Time</string>
 </resources>

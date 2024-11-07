@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:background="#F2B536"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F2B536">
 
+    <!-- App Logo -->
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="#F2B536"
-        android:contentDescription="Description"
-        android:src="@drawable/logo" />
+        android:layout_height="250dp"
+        android:src="@drawable/logo"
+        android:contentDescription="App Logo" />
 
+    <!-- Back Button -->
     <ImageButton
         android:id="@+id/back_button"
         android:layout_width="wrap_content"
@@ -25,55 +22,27 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true" />
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/tb_CourseSelect"
+    <!-- Spinner for Course Selection -->
+    <Spinner
+        android:id="@+id/spinner_courses"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:ems="10"
-        android:inputType="text"
-        android:hint="Enter Course"
-        android:layout_marginTop="200dp"
-        android:layout_marginStart="16dp" />
+        android:layout_marginTop="220dp"
+        android:layout_marginStart="16dp"
+        android:entries="@array/course_list"
+        android:spinnerMode="dropdown"
+        android:hint="@string/select_course_hint" />
 
-    <Button
-        android:id="@+id/btn_applyCourse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Apply"
-        android:layout_alignBaseline="@id/tb_CourseSelect"
-        android:layout_marginStart="275dp"
-        android:visibility="visible" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/tb_CourseModule"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:ems="10"
-        android:inputType="text"
-        android:hint="Enter Module"
-        android:layout_below="@id/tb_CourseSelect"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp" />
-
-    <Button
-        android:id="@+id/btn_applyUnit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Apply"
-        android:layout_alignBaseline="@id/tb_CourseModule"
-        android:layout_marginStart="275dp" />
-
+    <!-- Calendar View for Date Selection -->
     <CalendarView
         android:id="@+id/calendarView"
-        android:background="@android:color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tb_CourseModule"
-        android:layout_marginTop="40dp"
+        android:layout_below="@id/spinner_courses"
+        android:layout_marginTop="16dp"
         android:layout_marginStart="31dp" />
 
+    <!-- Search Button (Updated) -->
     <Button
         android:id="@+id/btn_StartSearch"
         android:layout_width="wrap_content"
@@ -81,6 +50,7 @@
         android:text="Search"
         android:layout_below="@id/calendarView"
         android:layout_marginTop="16dp"
-        android:layout_marginStart="155dp" />
-
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp" />
 </RelativeLayout>

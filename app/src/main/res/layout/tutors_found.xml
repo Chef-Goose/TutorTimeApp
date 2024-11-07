@@ -1,31 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:background="#F2B536"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F2B536">
 
+    <!-- App Logo -->
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:background="#F2B536"
-        android:contentDescription="Description"
-        android:src="@drawable/logo" />
+        android:src="@drawable/logo"
+        android:contentDescription="App Logo" />
 
-    <ImageButton
-        android:id="@+id/home_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Home"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:background="@android:color/transparent"
-        android:textColor="@android:color/white"
-        android:padding="16dp"
-        android:layout_marginBottom="16dp"
-        android:src="@drawable/ic_home_black_24dp" />
-
+    <!-- Back Button -->
     <ImageButton
         android:id="@+id/back_button"
         android:layout_width="wrap_content"
@@ -36,142 +22,52 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true" />
 
+    <!-- Date TextView (Dynamic) -->
     <TextView
         android:id="@+id/editTextDate"
         android:textSize="20sp"
+        android:text="Date: "
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="date"
-        android:text="Date: 10/10/24"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="225dp"
         android:layout_marginStart="100dp" />
 
+    <!-- Course TextView (Dynamic) -->
     <TextView
         android:id="@+id/tb_CourseName"
-        android:layout_width="200dp"
-        android:layout_height="46dp"
-        android:ems="10"
-        android:inputType="text"
+        android:text="Course: "
         android:textSize="20sp"
-        android:text="Course: CMPT 201"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/editTextDate"
         android:layout_marginTop="20dp"
         android:layout_marginStart="31dp" />
 
+    <!-- Title TextView for Available Tutors -->
     <TextView
-        android:id="@+id/editTextText2"
-        android:layout_width="202dp"
-        android:layout_height="44dp"
+        android:text="Available Tutors"
         android:textSize="20sp"
-        android:ems="10"
-        android:inputType="text"
-        android:text="Module: Pointers"
-        android:layout_below="@id/tb_CourseName"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="30dp" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="100dp"
+        android:layout_below="@id/tb_CourseName" />
 
-    <TextView
-        android:id="@+id/editTextText3"
-        android:textSize="25sp"
-        android:layout_width="200dp"
-        android:layout_height="38dp"
-        android:ems="10"
-        android:inputType="text"
-        android:text="Tutors Found:"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="134dp"
-        android:layout_marginTop="250dp" />
-
-    <TableLayout
-        android:id="@+id/table"
+    <!-- Scrollable TableLayout for tutors -->
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextText2"
-        android:background="@android:color/holo_blue_light"
-        android:layout_marginTop="25dp">
+        android:layout_below="@id/tb_CourseName"
+        android:layout_marginTop="40dp">
 
-
-        <TableRow
+        <TableLayout
+            android:id="@+id/table"
             android:layout_width="match_parent"
-            android:background="@android:color/holo_red_light"
-            android:layout_height="wrap_content">
-
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Tutor Name:"
-                android:padding="8dp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Certificates:"
-                android:padding="8dp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Time:"
-                android:padding="8dp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Tom Mazor"
-                android:padding="8dp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="CMPT Major"
-                android:padding="8dp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="12:00PM"
-                android:padding="8dp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/tutor"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="John Doe"
-                android:padding="8dp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="CMPT Professor"
-                android:padding="8dp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="5:00PM"
-                android:padding="8dp" />
-        </TableRow>
-    </TableLayout>
+            android:layout_height="wrap_content"
+            android:stretchColumns="1"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:orientation="vertical" />
+    </ScrollView>
 
 </RelativeLayout>

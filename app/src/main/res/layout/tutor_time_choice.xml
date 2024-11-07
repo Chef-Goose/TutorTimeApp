@@ -43,34 +43,16 @@
         android:id="@+id/timeSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:entries="@array/time_options"
         android:layout_marginStart="16dp"
         android:layout_marginTop="200dp" />
 
     <Button
-        android:id="@+id/btn_Apply_Times"
+        android:id="@+id/btn_Apply_Monday_Times"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Apply Time"
         android:layout_alignBaseline="@id/timeSpinner"
         android:layout_marginStart="275dp"
-        android:visibility="visible"/>
-
-    <Spinner
-        android:id="@+id/day_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:entries="@array/day_options"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="245dp"   />
-
-    <Button
-        android:id="@+id/btn_apply_day"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Apply Day"
-        android:layout_alignBaseline="@id/day_spinner"
-        android:layout_marginStart="285dp"
         android:visibility="visible"/>
 
 </RelativeLayout>

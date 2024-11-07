@@ -3,7 +3,6 @@
     <string name="Tutor_App">TutorApp</string>
 
     <string-array name="time_options">
-        <item>Select Time</item>
         <item>08:00 AM</item>
         <item>09:00 AM</item>
         <item>10:00 AM</item>
@@ -19,17 +18,6 @@
         <item>08:00 PM</item>
         <item>09:00 PM</item>
         <item>10:00 PM</item>
-    </string-array>
-
-    <string-array name="day_options">
-        <item>Select Day</item>
-        <item>Sunday</item>
-        <item>Monday</item>
-        <item>Tuesday</item>
-        <item>Wednesday</item>
-        <item>Thursday</item>
-        <item>Friday</item>
-        <item>Saturday</item>
     </string-array>
 
 </resources>

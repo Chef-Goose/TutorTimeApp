@@ -11,8 +11,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.example.tutorapp.ui.hashPassword
 import android.content.SharedPreferences
+import com.example.tutorapp.ui.hashPassword
 
 class LoginActivity : AppCompatActivity() {
 
@@ -53,29 +53,50 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Check if user exists in the database
+            // Query Firebase to check user credentials
             database.orderByChild("email").equalTo(email).get()
                 .addOnSuccessListener { dataSnapshot ->
                     if (dataSnapshot.exists()) {
                         for (userSnapshot in dataSnapshot.children) {
                             val user = userSnapshot.getValue(Users::class.java)
                             if (user != null) {
-                                // Check if password is correct
-                                if (user.password == hashPassword(password)) {
-                                    Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT)
-                                        .show()
-                                    sharedPreferences.edit().putString("userID", user.id).apply()
-                                    // Navigate to respective dashboard based on user type
-                                    val intent = if (user.role == "tutor") {
-                                        Intent(this@LoginActivity, TutorDashboardNavBar::class.java)
-                                    } else {
-                                        Intent(this@LoginActivity, DashboardNavBar::class.java)
+                                when (user.role) {
+                                    "director" -> {
+                                        // Director login logic
+                                        if (user.password == password) { // Assuming plain password for director
+                                            Toast.makeText(this, "Director Login Successful", Toast.LENGTH_SHORT).show()
+                                            sharedPreferences.edit().putString("userID", user.id).apply()
+                                            startActivity(Intent(this, DirectorDashboardActivity::class.java))
+                                            finish()
+                                        } else {
+                                            Toast.makeText(this, "Incorrect password for director", Toast.LENGTH_SHORT).show()
+                                        }
                                     }
-                                    startActivity(intent)
-                                    finish()
-                                } else {
-                                    Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT)
-                                        .show()
+                                    "tutor" -> {
+                                        // Tutor login logic
+                                        if (user.password == hashPassword(password)) {
+                                            Toast.makeText(this, "Tutor Login Successful", Toast.LENGTH_SHORT).show()
+                                            sharedPreferences.edit().putString("userID", user.id).apply()
+                                            startActivity(Intent(this, TutorDashboardNavBar::class.java))
+                                            finish()
+                                        } else {
+                                            Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+                                    "student" -> {
+                                        // Student login logic
+                                        if (user.password == hashPassword(password)) {
+                                            Toast.makeText(this, "Student Login Successful", Toast.LENGTH_SHORT).show()
+                                            sharedPreferences.edit().putString("userID", user.id).apply()
+                                            startActivity(Intent(this, DashboardNavBar::class.java))
+                                            finish()
+                                        } else {
+                                            Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+                                    else -> {
+                                        Toast.makeText(this, "Invalid user role", Toast.LENGTH_SHORT).show()
+                                    }
                                 }
                             }
                         }
@@ -88,5 +109,4 @@ class LoginActivity : AppCompatActivity() {
                 }
         }
     }
-
 }

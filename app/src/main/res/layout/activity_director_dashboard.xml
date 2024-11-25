@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#F2B536">
+    <!-- Welcome Message -->
+
+    <TextView
+        android:id="@+id/directorWelcomeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome, Director!"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <!-- Button for Director Stat Page -->
+
+    <!-- Button for Viewing All Profiles -->
+
+    <Button
+        android:id="@+id/statPageButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:text="Director Stat Page"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/directorWelcomeText" />
+
+    <Button
+        android:id="@+id/viewProfilesButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="View All Profiles"
+        app:layout_constraintTop_toBottomOf="@id/statPageButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <!-- Button for Viewing User Feedback -->
+    <Button
+        android:id="@+id/feedbackButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="View User Feedback"
+        app:layout_constraintTop_toBottomOf="@id/viewProfilesButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

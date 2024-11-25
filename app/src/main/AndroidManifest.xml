@@ -130,6 +130,14 @@
             android:label="TimeSelection"
             android:exported="false" />
 
+        <activity
+            android:name=".DirectorDashboardActivity"
+            android:label="Director Dashboard"
+            android:exported="true" />
+
+        <activity android:name=".DirectorStatPageActivity" />
+        <activity android:name=".ViewProfilesActivity" />
+        <activity android:name=".ViewFeedbackActivity" />
 
     </application>
 

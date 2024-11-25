@@ -80,17 +80,10 @@ class LoginActivity : AppCompatActivity() {
                                                     .putString("userID", user.id)
                                                     .apply()
 
-                                                // Navigate to respective dashboard based on user type
-                                                val intent = if (user.role == "tutor") {
-                                                    Intent(
-                                                        this@LoginActivity,
-                                                        TutorDashboardNavBar::class.java
-                                                    )
-                                                } else {
-                                                    Intent(
-                                                        this@LoginActivity,
-                                                        DashboardNavBar::class.java
-                                                    )
+                                                val intent = when (user.role) {
+                                                    "tutor" -> Intent(this@LoginActivity, TutorDashboardNavBar::class.java)
+                                                    //"director" -> Intent(this@LoginActivity, ::class.java) // Add director activity
+                                                    else -> Intent(this@LoginActivity, DashboardNavBar::class.java)
                                                 }
                                                 startActivity(intent)
                                                 finish()

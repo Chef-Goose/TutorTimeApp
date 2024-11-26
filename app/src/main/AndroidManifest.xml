@@ -106,7 +106,20 @@
         <activity
             android:name=".StudentEnroll"
             android:label="Enroll"
-            android:exported="false" />
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize|keyboardHidden">
+
+
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="com.example.tutorapp" android:host="paypal" />
+
+        </intent-filter>
+
+    </activity>
 
         <activity
             android:name=".NotificationActivity"

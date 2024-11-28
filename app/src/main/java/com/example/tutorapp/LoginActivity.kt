@@ -84,7 +84,7 @@ class LoginActivity : AppCompatActivity() {
 
                                                 val intent = when (user.role) {
                                                     "tutor" -> Intent(this@LoginActivity, TutorDashboardNavBar::class.java)
-                                                    "director" -> Intent(this@LoginActivity, DirectorDashboardActivity::class.java) 
+                                                    "director" -> Intent(this@LoginActivity, DirectorDashboardActivity::class.java)
                                                     else -> Intent(this@LoginActivity, DashboardNavBar::class.java)
                                                 }
                                                 sharedPreferences.edit().putString("userID", user.id).apply()

@@ -1,15 +1,11 @@
 package com.example.tutorapp
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ScrollView
-import android.widget.TextView
-import android.widget.Toast
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 
 class ViewFeedbackActivity : AppCompatActivity() {
 
@@ -18,41 +14,28 @@ class ViewFeedbackActivity : AppCompatActivity() {
     private lateinit var feedbackInput: EditText
     private lateinit var backButton: ImageButton
     private lateinit var submitButton: Button
+    private lateinit var feedbackListener: ValueEventListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_feedback)
 
-        // Initialize views
-        feedbackTextView = findViewById(R.id.feedbackTextView)
+        // Correct initialization of views
+        feedbackTextView = findViewById(R.id.feedTextView)
         feedbackInput = findViewById(R.id.feedbackInput)
         backButton = findViewById(R.id.back_button)
         submitButton = findViewById(R.id.submitButton)
 
         // Back button functionality
         backButton.setOnClickListener {
-            finish() // Navigate back to the previous screen
+            finish()
         }
 
         // Initialize Firebase database reference
         database = FirebaseDatabase.getInstance().getReference("Feedback")
 
         // Load existing feedback
-        loadFeedback()
-
-        // Submit feedback functionality
-        submitButton.setOnClickListener {
-            submitFeedback()
-        }
-    }
-
-    /**
-     * Fetch and display feedback from Firebase.
-     */
-    private fun loadFeedback() {
-        feedbackTextView.text = "Loading feedback, please wait..."
-
-        database.addValueEventListener(object : ValueEventListener {
+        feedbackListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val feedbackList = StringBuilder()
                 if (snapshot.exists()) {
@@ -60,6 +43,8 @@ class ViewFeedbackActivity : AppCompatActivity() {
                         val feedbackText = feedback.getValue(String::class.java)
                         if (!feedbackText.isNullOrEmpty()) {
                             feedbackList.append("- $feedbackText\n\n")
+                        } else {
+                            feedbackList.append("- (Invalid feedback entry)\n\n")
                         }
                     }
                 } else {
@@ -70,13 +55,29 @@ class ViewFeedbackActivity : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {
                 feedbackTextView.text = "Failed to load feedback."
-                Toast.makeText(
-                    this@ViewFeedbackActivity,
-                    "Error: ${error.message}",
-                    Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(this@ViewFeedbackActivity, "Error: ${error.message}", Toast.LENGTH_LONG).show()
             }
+        }
+        database.addValueEventListener(feedbackListener)
+
+        // Add TextWatcher to enable/disable submit button dynamically
+        feedbackInput.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                submitButton.isEnabled = !s.isNullOrEmpty()
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
+
+        // Submit feedback functionality
+        submitButton.setOnClickListener { submitFeedback() }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // Remove the listener to prevent memory leaks
+        database.removeEventListener(feedbackListener)
     }
 
     /**

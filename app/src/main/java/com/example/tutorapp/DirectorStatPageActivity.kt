@@ -5,6 +5,8 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DirectorStatPageActivity : AppCompatActivity() {
     private lateinit var database: DatabaseReference
@@ -14,6 +16,7 @@ class DirectorStatPageActivity : AppCompatActivity() {
         setContentView(R.layout.activity_director_stat_page)
 
         val statsTextView = findViewById<TextView>(R.id.statsTextView)
+
         val backButton = findViewById<ImageButton>(R.id.back_button)
 
         // Back button functionality
@@ -22,37 +25,50 @@ class DirectorStatPageActivity : AppCompatActivity() {
         }
 
         // Initialize Firebase database reference
-        database = FirebaseDatabase.getInstance().getReference("Sessions") // Update with your sessions data node
+        database = FirebaseDatabase.getInstance().getReference("student_tutor_enrollments")
 
-        // Fetch stats from the database
-        database.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                // Assuming each child under "Sessions" represents a completed session
-                var totalSessions = 0
-                val sessionsPerTutor = mutableMapOf<String, Int>()
+        // Fetch stats for the current month
+        fetchStatsForCurrentMonth { tutorStats ->
+            // Display stats
+            val statsBuilder = StringBuilder("Sessions Completed This Month:\n\n")
+            for ((tutor, count) in tutorStats) {
+                statsBuilder.append("$tutor: $count sessions\n")
+            }
+            statsTextView.text = statsBuilder.toString()
+        }
+    }
 
-                for (session in snapshot.children) {
-                    totalSessions++
-                    val tutorId = session.child("tutorId").getValue(String::class.java)
-                    if (tutorId != null) {
-                        sessionsPerTutor[tutorId] = sessionsPerTutor.getOrDefault(tutorId, 0) + 1
+    private fun fetchStatsForCurrentMonth(onComplete: (Map<String, Int>) -> Unit) {
+        val tutorStats = mutableMapOf<String, Int>()
+
+        // Get the start and end timestamps for the current month
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
+        val startOfMonth = calendar.timeInMillis
+
+        calendar.add(Calendar.MONTH, 1)
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
+        val endOfMonth = calendar.timeInMillis
+
+        // Query Firebase for enrollments within the current month
+        database.orderByChild("date")
+            .startAt(startOfMonth.toDouble())
+            .endAt(endOfMonth.toDouble())
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (enrollment in snapshot.children) {
+                        val tutorId = enrollment.child("tutorId").getValue(String::class.java)
+                        if (tutorId != null) {
+                            tutorStats[tutorId] = tutorStats.getOrDefault(tutorId, 0) + 1
+                        }
                     }
+                    onComplete(tutorStats)
                 }
 
-                val statsBuilder = StringBuilder()
-                statsBuilder.append("Total Sessions Completed: $totalSessions\n\n")
-                statsBuilder.append("Sessions Per Tutor:\n")
-
-                for ((tutor, count) in sessionsPerTutor) {
-                    statsBuilder.append("- Tutor $tutor: $count sessions\n")
+                override fun onCancelled(error: DatabaseError) {
+                    val statsTextView = findViewById<TextView>(R.id.statsTextView)
+                    statsTextView.text = "Failed to load stats: ${error.message}"
                 }
-
-                statsTextView.text = statsBuilder.toString()
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                statsTextView.text = "Failed to load stats: ${error.message}"
-            }
-        })
+            })
     }
 }

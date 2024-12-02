@@ -22,12 +22,23 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true" />
 
+    <Button
+        android:id="@+id/btn_InstantSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tutor Now"
+        android:layout_marginTop="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp" />
+
+
     <!-- Spinner for Course Selection -->
     <Spinner
         android:id="@+id/spinner_courses"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="220dp"
+        android:layout_marginTop="260dp"
         android:layout_marginStart="16dp"
         android:entries="@array/course_list"
         android:spinnerMode="dropdown"

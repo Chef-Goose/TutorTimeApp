@@ -15,7 +15,7 @@
 
         <activity
             android:name=".MainActivity"
-            android:label="Splash Screen"
+            android:label="Tutor Time"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -133,6 +133,7 @@
             android:exported="false" />
 
         <activity
+
             android:name=".StudentInstantSession"
             android:label="InsantSession"
             android:exported="false" />
@@ -146,6 +147,15 @@
 
             android:name="com.google.android.geo_API_KEY"
             android:value="@string/google_map_api_key" />
+        <activity
+            android:name=".DirectorDashboardActivity"
+            android:label="Director Dashboard"
+            android:exported="true" />
+
+        <activity android:name=".DirectorStatPageActivity" />
+        <activity android:name=".ViewProfilesActivity" />
+        <activity android:name=".ViewFeedbackActivity" />
+
 
     </application>
 

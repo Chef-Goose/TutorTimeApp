@@ -1,6 +1,6 @@
 <resources>
     <!-- Existing strings -->
-    <string name="app_name">TutorApp</string>
+    <string name="app_name">Tutor Time</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -12,6 +12,7 @@
     <string name="age_25">Age: 25</string>
     <string name="phd_electrical_engineering">PHD:Electrical Engineering</string>
     <string name="age_28" />
+    <string name="paypal_client_id">AeXROYuQMXFFQ7H99Qghs07CqXiU1bnzgoc2OlPDzKB4-7J3UoughuHzQ_kysmtCRQust1tpxc2tpsv_</string>
 
     <!-- Spinner and Selection Strings -->
     <string-array name="course_list">

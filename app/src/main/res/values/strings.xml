@@ -36,4 +36,41 @@
     <!-- Spinner Hint Strings -->
     <string name="select_course_hint">Select Course</string>
     <string name="select_time_hint">Select Time</string>
+    <string name="google_map_api_key">AIzaSyC_0Gp7kPUNqCIVSqn1RyyaQgKUDw8Okpc</string>
+
+    <string name="terms_of_use">
+        <![CDATA[
+    By applying to become a tutor on Tutor Time, you agree to comply with the following Terms and Conditions:\n\n
+    1. Eligibility and Qualifications\n
+    1.1. You confirm that you possess the necessary qualifications, skills, and experience to provide tutoring services in the subjects you apply to tutor for. This includes, but is not limited to, relevant academic degrees, certifications, or professional experience.\n\n
+    1.2. You agree to provide accurate and truthful information regarding your qualifications, background, and experience during the application process and while using the Application.\n\n
+    1.3. You agree to promptly update your profile if your qualifications, availability, or other relevant details change.\n\n
+    2. Professional Conduct\n
+    2.1. As a tutor, you are expected to provide high-quality, professional, and respectful tutoring services to students.\n\n
+    2.2. You will not engage in any form of harassment, discrimination, or unethical behavior toward students or any other users of the Application.\n\n
+    3. Tutoring Services\n
+    3.1. You agree to deliver tutoring sessions in the subjects and topics you have specified in your profile and in accordance with your qualifications.\n\n
+    3.2. You agree to maintain confidentiality and respect the privacy of students, including not disclosing personal information shared during tutoring sessions.\n\n
+    3.3. You acknowledge that your services are delivered remotely or in person, depending on the format chosen for each tutoring session, and that you are responsible for ensuring a safe and conducive learning environment.\n\n
+    4. Payment and Fees\n
+    4.1. You agree that the compensation for your tutoring services will be handled through the payment system set forth by Tutor Time.\n\n
+    4.2. You understand and accept the fees or commissions that may be deducted by Tutor Time from your tutoring earnings.\n\n
+    4.3. Payments will be processed according to the payment schedule defined by Tutor Time, and you agree to provide accurate payment details to facilitate timely payments.\n\n
+    5. Background Check and Verification\n
+    5.1. You agree to undergo any background checks or verification processes required by Tutor Time, including identity verification and educational qualifications checks.\n\n
+    5.2. You understand that your application may be rejected or your tutoring services suspended if the verification process reveals discrepancies or issues.\n\n
+    6. Availability and Scheduling\n
+    6.1. You are responsible for managing your availability and ensuring that you are present for scheduled tutoring sessions.\n\n
+    6.2. You agree to notify students and Tutor Time in advance if you are unable to attend a scheduled session. You may be subject to penalties for repeated no-shows or cancellations without valid reasons.\n\n
+    7. Termination\n
+    7.1. Either you or Tutor Time may terminate this agreement at any time, with or without cause, by providing notice as specified in the Application.\n\n
+    7.2. Tutor Time reserves the right to suspend or remove your account if you fail to comply with these Terms and Conditions or if any complaints or issues arise regarding your tutoring services.\n\n
+    8. Liability\n
+    8.1. You agree to hold harmless and indemnify Tutor Time from any claims, damages, or liabilities arising out of your actions as a tutor, including but not limited to claims related to tutoring services, student interactions, or any breach of these Terms and Conditions.\n\n
+    8.2. You acknowledge that Tutor Time does not provide any direct tutoring services and acts solely as a platform for connecting tutors and students.\n\n
+    9. Amendments\n
+    9.1. Tutor Time reserves the right to modify or update these Terms and Conditions at any time. Any changes will be communicated to you, and continued use of the platform will constitute acceptance of the updated terms.\n\n\n
+    By clicking "Accept," you agree to comply with these Terms and Conditions and acknowledge that you have read and understood the rules governing your participation as a tutor on Tutor Time.
+    ]]>
+    </string>
 </resources>

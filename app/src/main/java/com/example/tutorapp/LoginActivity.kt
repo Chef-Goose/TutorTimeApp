@@ -81,8 +81,16 @@ class LoginActivity : AppCompatActivity() {
                                                     .apply()
 
                                                 val intent = when (user.role) {
-                                                    "tutor" -> Intent(this@LoginActivity, TutorDashboardNavBar::class.java)
-                                                    "director" -> Intent(this@LoginActivity, DirectorDashboardActivity::class.java) // Add director activity
+                                                    "tutor" -> {
+                                                        if (!user.onboarding) {
+                                                            val onboardingIntent = Intent(this@LoginActivity, TutorOnboarding::class.java)
+                                                            onboardingIntent.putExtra("user", user.id)
+                                                            onboardingIntent
+                                                        } else {
+                                                            Intent(this@LoginActivity, TutorDashboardNavBar::class.java)
+                                                        }
+                                                    }
+                                                    "director" -> Intent(this@LoginActivity, DirectorDashboardActivity::class.java)
                                                     else -> Intent(this@LoginActivity, DashboardNavBar::class.java)
                                                 }
                                                 startActivity(intent)

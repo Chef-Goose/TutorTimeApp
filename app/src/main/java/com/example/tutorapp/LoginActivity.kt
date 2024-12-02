@@ -56,6 +56,7 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+
             // Authenticate user using Firebase Authentication
             firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { authTask ->
@@ -80,7 +81,9 @@ class LoginActivity : AppCompatActivity() {
                                                     .putString("userID", user.id)
                                                     .apply()
 
+
                                                 val intent = when (user.role) {
+
                                                     "tutor" -> {
                                                         if (!user.onboarding) {
                                                             val onboardingIntent = Intent(this@LoginActivity, TutorOnboarding::class.java)
@@ -96,6 +99,7 @@ class LoginActivity : AppCompatActivity() {
                                                 startActivity(intent)
                                                 finish()
                                             }
+
                                         }
                                     } else {
                                         Toast.makeText(

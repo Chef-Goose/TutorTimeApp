@@ -141,12 +141,14 @@ class SignUpActivity : AppCompatActivity() {
                                 }
                             }
                     } else {
+
                         // Handle registration failure
                         Toast.makeText(
                             this,
                             "Sign-up failed: ${task.exception?.message}",
                             Toast.LENGTH_SHORT
                         ).show()
+
                     }
                 }
         }

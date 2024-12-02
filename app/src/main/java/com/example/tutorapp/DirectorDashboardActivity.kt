@@ -31,7 +31,7 @@ class DirectorDashboardActivity : AppCompatActivity() {
             startActivity(Intent(this, ViewFeedbackActivity::class.java))
         }
 
-        // Sign out functionality - directly log out
+        // Sign out
         signOutButton.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

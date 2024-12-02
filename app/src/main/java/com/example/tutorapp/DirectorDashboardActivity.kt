@@ -10,33 +10,25 @@ class DirectorDashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_director_dashboard)
 
-        // Example buttons for navigation or actions
-        val viewReportsButton = findViewById<Button>(R.id.viewReportsButton)
-        val manageUsersButton = findViewById<Button>(R.id.manageUsersButton)
+        // Button to navigate to the Director Stat Page
         val statPageButton = findViewById<Button>(R.id.statPageButton)
-        val signOutButton = findViewById<Button>(R.id.signOutButton)
-
-        // Navigate to the stats page
         statPageButton.setOnClickListener {
+            // Navigate to DirectorStatPageActivity (Create this activity)
             startActivity(Intent(this, DirectorStatPageActivity::class.java))
         }
 
-        // Navigate to the user management page
-        manageUsersButton.setOnClickListener {
+        // Button to view all profiles
+        val viewProfilesButton = findViewById<Button>(R.id.viewProfilesButton)
+        viewProfilesButton.setOnClickListener {
+            // Navigate to ViewProfilesActivity (Create this activity)
             startActivity(Intent(this, ViewProfilesActivity::class.java))
         }
 
-        // Navigate to the feedback page
-        viewReportsButton.setOnClickListener {
+        // Button to view user feedback
+        val feedbackButton = findViewById<Button>(R.id.feedbackButton)
+        feedbackButton.setOnClickListener {
+            // Navigate to ViewFeedbackActivity (Create this activity)
             startActivity(Intent(this, ViewFeedbackActivity::class.java))
-        }
-
-        // Sign out functionality - directly log out
-        signOutButton.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-            finish()
         }
     }
 }

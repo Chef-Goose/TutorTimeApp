@@ -31,7 +31,8 @@ class ViewProfilesActivity : AppCompatActivity() {
                 for (user in snapshot.children) {
                     val fullName = user.child("fullName").getValue(String::class.java) ?: "N/A"
                     val role = user.child("role").getValue(String::class.java) ?: "N/A"
-                    profiles.append("Name: $fullName\nRole: $role\n\n")
+                    val email = user.child("email").getValue(String::class.java) ?: "N/A"
+                    profiles.append("Name: $fullName\nRole: $role\nEmail: $email\n\n")
                 }
                 profilesTextView.text = profiles.toString()
             }

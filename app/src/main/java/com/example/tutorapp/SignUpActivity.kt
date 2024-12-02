@@ -107,7 +107,7 @@ class SignUpActivity : AppCompatActivity() {
                                     val userId = firebaseAuth.currentUser?.uid ?: ""
                                     val hashedPassword = hashPassword(password)
 
-                                    val user = Users(userId, fullName, email, hashedPassword, userType)
+                                    val user = Users(userId, fullName, email, hashedPassword, userType,false)
 
                                     database.child(userId).setValue(user)
                                         .addOnCompleteListener { dbTask ->
@@ -141,12 +141,14 @@ class SignUpActivity : AppCompatActivity() {
                                 }
                             }
                     } else {
+
                         // Handle registration failure
                         Toast.makeText(
                             this,
                             "Sign-up failed: ${task.exception?.message}",
                             Toast.LENGTH_SHORT
                         ).show()
+
                     }
                 }
         }

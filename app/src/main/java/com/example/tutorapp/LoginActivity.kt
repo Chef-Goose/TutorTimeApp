@@ -11,10 +11,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import android.content.SharedPreferences
 import com.example.tutorapp.ui.hashPassword
+import android.content.SharedPreferences
 import com.google.firebase.auth.FirebaseAuth
-
 
 class LoginActivity : AppCompatActivity() {
 
@@ -58,7 +57,6 @@ class LoginActivity : AppCompatActivity() {
             }
 
 
-
             // Authenticate user using Firebase Authentication
             firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { authTask ->
@@ -83,7 +81,9 @@ class LoginActivity : AppCompatActivity() {
                                                     .putString("userID", user.id)
                                                     .apply()
 
-                                                 val intent = when (user.role) {
+
+                                                val intent = when (user.role) {
+
                                                     "tutor" -> {
                                                         if (!user.onboarding) {
                                                             val onboardingIntent = Intent(this@LoginActivity, TutorOnboarding::class.java)
@@ -96,7 +96,6 @@ class LoginActivity : AppCompatActivity() {
                                                     "director" -> Intent(this@LoginActivity, DirectorDashboardActivity::class.java)
                                                     else -> Intent(this@LoginActivity, DashboardNavBar::class.java)
                                                 }
-                                                sharedPreferences.edit().putString("userID", user.id).apply()
                                                 startActivity(intent)
                                                 finish()
                                             }
@@ -118,7 +117,6 @@ class LoginActivity : AppCompatActivity() {
                                         Toast.LENGTH_SHORT
                                     )
                                         .show()
-
                                 }
                         } else {
                             // Email not verified
@@ -155,5 +153,4 @@ class LoginActivity : AppCompatActivity() {
                 }
         }
     }
-
 }

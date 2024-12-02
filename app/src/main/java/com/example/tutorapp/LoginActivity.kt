@@ -58,6 +58,7 @@ class LoginActivity : AppCompatActivity() {
             }
 
 
+
             // Authenticate user using Firebase Authentication
             firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { authTask ->
@@ -82,15 +83,24 @@ class LoginActivity : AppCompatActivity() {
                                                     .putString("userID", user.id)
                                                     .apply()
 
-                                                val intent = when (user.role) {
-                                                    "tutor" -> Intent(this@LoginActivity, TutorDashboardNavBar::class.java)
-                                                    "director" -> Intent(this@LoginActivity, DirectorDashboardActivity::class.java) 
+                                                 val intent = when (user.role) {
+                                                    "tutor" -> {
+                                                        if (!user.onboarding) {
+                                                            val onboardingIntent = Intent(this@LoginActivity, TutorOnboarding::class.java)
+                                                            onboardingIntent.putExtra("user", user.id)
+                                                            onboardingIntent
+                                                        } else {
+                                                            Intent(this@LoginActivity, TutorDashboardNavBar::class.java)
+                                                        }
+                                                    }
+                                                    "director" -> Intent(this@LoginActivity, DirectorDashboardActivity::class.java)
                                                     else -> Intent(this@LoginActivity, DashboardNavBar::class.java)
                                                 }
                                                 sharedPreferences.edit().putString("userID", user.id).apply()
                                                 startActivity(intent)
                                                 finish()
                                             }
+
                                         }
                                     } else {
                                         Toast.makeText(

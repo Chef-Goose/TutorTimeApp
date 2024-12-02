@@ -10,25 +10,33 @@ class DirectorDashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_director_dashboard)
 
-        // Button to navigate to the Director Stat Page
+        // Example buttons for navigation or actions
+        val feedbackButton = findViewById<Button>(R.id.feedbackButton)
+        val viewProfilesButton = findViewById<Button>(R.id.viewProfilesButton)
         val statPageButton = findViewById<Button>(R.id.statPageButton)
+        val signOutButton = findViewById<Button>(R.id.signOutButton)
+
+        // Navigate to the stats page
         statPageButton.setOnClickListener {
-            // Navigate to DirectorStatPageActivity (Create this activity)
             startActivity(Intent(this, DirectorStatPageActivity::class.java))
         }
 
-        // Button to view all profiles
-        val viewProfilesButton = findViewById<Button>(R.id.viewProfilesButton)
+        // Navigate to the user management page
         viewProfilesButton.setOnClickListener {
-            // Navigate to ViewProfilesActivity (Create this activity)
             startActivity(Intent(this, ViewProfilesActivity::class.java))
         }
 
-        // Button to view user feedback
-        val feedbackButton = findViewById<Button>(R.id.feedbackButton)
+        // Navigate to the feedback page
         feedbackButton.setOnClickListener {
-            // Navigate to ViewFeedbackActivity (Create this activity)
             startActivity(Intent(this, ViewFeedbackActivity::class.java))
+        }
+
+        // Sign out functionality - directly log out
+        signOutButton.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
         }
     }
 }

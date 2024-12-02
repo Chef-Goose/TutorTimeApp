@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Permission to access the internet for Firebase and other network operations -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -11,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TutorApp">
 
+        <!-- MainActivity as the launcher activity -->
         <activity
             android:name=".MainActivity"
             android:label="Tutor Time"
@@ -21,21 +24,19 @@
             </intent-filter>
         </activity>
 
+        <!-- Other activities -->
         <activity
             android:name=".LoginActivity"
             android:label="Login"
             android:exported="true" />
-
         <activity
             android:name=".SignUpActivity"
             android:label="Sign Up"
             android:exported="false" />
-
         <activity
             android:name=".DashboardNavBar"
             android:label="Dashboard"
             android:exported="false" />
-
         <activity
             android:name=".SignOutActivity"
             android:label="Sign Out"
@@ -75,14 +76,17 @@
             android:name=".TutorDashboardNavBar"
             android:label="TutorDashboard"
             android:exported="false" />
+
         <activity
             android:name=".TutorProfileLogIn"
             android:label="TutorLogin"
             android:exported="false" />
+
         <activity
             android:name=".TutorMessagesActivity"
             android:label="TutorMessages"
             android:exported="false" />
+
         <activity
             android:name=".TutorCalenderActivity"
             android:label="TutorCalender"
@@ -117,27 +121,44 @@
             android:name=".TutorNotificationActivity"
             android:label="TutorNotification"
             android:exported="false" />
+
         <activity
             android:name=".SoloMessagesActivity"
             android:label="SoloMessage"
             android:exported="false" />
+
         <activity
             android:name=".TutorAvailabilityActivity"
             android:label="Availability"
             android:exported="false" />
+
         <activity
             android:name=".TutorTimeSelection"
             android:label="TimeSelection"
             android:exported="false" />
 
+        <!-- Director Activities -->
         <activity
             android:name=".DirectorDashboardActivity"
             android:label="Director Dashboard"
             android:exported="true" />
 
-        <activity android:name=".DirectorStatPageActivity" />
-        <activity android:name=".ViewProfilesActivity" />
-        <activity android:name=".ViewFeedbackActivity" />
+        <activity
+            android:name=".DirectorStatPageActivity"
+            android:label="Director Stat Page"
+            android:exported="true" />
+
+        <!-- Activities to view profiles and feedback -->
+        <activity
+            android:name=".ViewProfilesActivity"
+            android:label="View Profiles"
+            android:exported="true" />
+
+        <!-- Ensure ViewFeedbackActivity is in the correct package -->
+        <activity
+            android:name=".ViewFeedbackActivity"
+            android:label="View Feedback"
+            android:exported="true" />
 
     </application>
 

@@ -66,8 +66,17 @@ class LoginActivity : AppCompatActivity() {
                                         .show()
                                     sharedPreferences.edit().putString("userID", user.id).apply()
                                     // Navigate to respective dashboard based on user type
-                                    val intent = if (user.role == "tutor") {
-                                        Intent(this@LoginActivity, TutorDashboardNavBar::class.java)
+                                   // val intent: Intent
+                                     val intent = if (user.role == "tutor") {
+                                        if(!user.onboarding){
+                                            val onboardingIntent = Intent(this@LoginActivity, TutorOnboarding::class.java)
+                                            onboardingIntent.putExtra("user",user.id)
+                                            onboardingIntent
+
+                                        }
+                                            else {
+                                            Intent(this@LoginActivity, TutorDashboardNavBar::class.java)
+                                        }
                                     } else {
                                         Intent(this@LoginActivity, DashboardNavBar::class.java)
                                     }

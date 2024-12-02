@@ -11,12 +11,15 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.example.tutorapp.ui.hashPassword
 import android.content.SharedPreferences
+import com.example.tutorapp.ui.hashPassword
+import com.google.firebase.auth.FirebaseAuth
+
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var database: DatabaseReference
+    private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +28,7 @@ class LoginActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_login)
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+        firebaseAuth = FirebaseAuth.getInstance()
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -53,47 +57,101 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Check if user exists in the database
-            database.orderByChild("email").equalTo(email).get()
-                .addOnSuccessListener { dataSnapshot ->
-                    if (dataSnapshot.exists()) {
-                        for (userSnapshot in dataSnapshot.children) {
-                            val user = userSnapshot.getValue(Users::class.java)
-                            if (user != null) {
-                                // Check if password is correct
-                                if (user.password == hashPassword(password)) {
-                                    Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT)
-                                        .show()
-                                    sharedPreferences.edit().putString("userID", user.id).apply()
-                                    // Navigate to respective dashboard based on user type
-                                   // val intent: Intent
-                                     val intent = if (user.role == "tutor") {
-                                        if(!user.onboarding){
-                                            val onboardingIntent = Intent(this@LoginActivity, TutorOnboarding::class.java)
-                                            onboardingIntent.putExtra("user",user.id)
-                                            onboardingIntent
+
+
+            // Authenticate user using Firebase Authentication
+            firebaseAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener { authTask ->
+                    if (authTask.isSuccessful) {
+                        val firebaseUser = firebaseAuth.currentUser
+
+                        // Check if email is verified
+                        if (firebaseUser != null && firebaseUser.isEmailVerified) {
+                            // Fetch user details from Realtime Database
+                            database.orderByChild("email").equalTo(email).get()
+                                .addOnSuccessListener { dataSnapshot ->
+                                    if (dataSnapshot.exists()) {
+                                        for (userSnapshot in dataSnapshot.children) {
+                                            val user = userSnapshot.getValue(Users::class.java)
+                                            if (user != null) {
+                                                Toast.makeText(
+                                                    this,
+                                                    "Login Successful",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                                sharedPreferences.edit()
+                                                    .putString("userID", user.id)
+                                                    .apply()
+
+                                                 val intent = when (user.role) {
+                                                    "tutor" -> {
+                                                        if (!user.onboarding) {
+                                                            val onboardingIntent = Intent(this@LoginActivity, TutorOnboarding::class.java)
+                                                            onboardingIntent.putExtra("user", user.id)
+                                                            onboardingIntent
+                                                        } else {
+                                                            Intent(this@LoginActivity, TutorDashboardNavBar::class.java)
+                                                        }
+                                                    }
+                                                    "director" -> Intent(this@LoginActivity, DirectorDashboardActivity::class.java)
+                                                    else -> Intent(this@LoginActivity, DashboardNavBar::class.java)
+                                                }
+                                                sharedPreferences.edit().putString("userID", user.id).apply()
+                                                startActivity(intent)
+                                                finish()
+                                            }
 
                                         }
-                                            else {
-                                            Intent(this@LoginActivity, TutorDashboardNavBar::class.java)
-                                        }
                                     } else {
-                                        Intent(this@LoginActivity, DashboardNavBar::class.java)
+                                        Toast.makeText(
+                                            this,
+                                            "User data not found",
+                                            Toast.LENGTH_SHORT
+                                        )
+                                            .show()
                                     }
-                                    startActivity(intent)
-                                    finish()
-                                } else {
-                                    Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT)
-                                        .show()
                                 }
-                            }
+                                .addOnFailureListener { error ->
+                                    Toast.makeText(
+                                        this,
+                                        "Error: ${error.message}",
+                                        Toast.LENGTH_SHORT
+                                    )
+                                        .show()
+
+                                }
+                        } else {
+                            // Email not verified
+                            Toast.makeText(
+                                this,
+                                "Please verify your email before logging in.",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            firebaseUser?.sendEmailVerification()
+                                ?.addOnCompleteListener { resendTask ->
+                                    if (resendTask.isSuccessful) {
+                                        Toast.makeText(
+                                            this,
+                                            "Verification email sent again. Please check your inbox.",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    } else {
+                                        Toast.makeText(
+                                            this,
+                                            "Failed to send verification email: ${resendTask.exception?.message}",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                }
                         }
                     } else {
-                        Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show()
+                        // Authentication failed
+                        Toast.makeText(
+                            this,
+                            "Authentication failed: ${authTask.exception?.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
-                }
-                .addOnFailureListener { error ->
-                    Toast.makeText(this, "Error: ${error.message}", Toast.LENGTH_SHORT).show()
                 }
         }
     }

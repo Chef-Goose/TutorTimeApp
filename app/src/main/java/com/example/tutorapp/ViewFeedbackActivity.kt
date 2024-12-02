@@ -3,7 +3,11 @@ package com.example.tutorapp
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.*
 
@@ -15,12 +19,13 @@ class ViewFeedbackActivity : AppCompatActivity() {
     private lateinit var backButton: ImageButton
     private lateinit var submitButton: Button
     private lateinit var feedbackListener: ValueEventListener
+    private val submittedFeedbackKeys = mutableSetOf<String>() // Track all feedback keys submitted by the user
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_feedback)
 
-        // Correct initialization of views
+        // Initialize views
         feedbackTextView = findViewById(R.id.feedTextView)
         feedbackInput = findViewById(R.id.feedbackInput)
         backButton = findViewById(R.id.back_button)
@@ -28,21 +33,25 @@ class ViewFeedbackActivity : AppCompatActivity() {
 
         // Back button functionality
         backButton.setOnClickListener {
-            finish()
+            finish() // Close activity and return to the previous screen
         }
 
         // Initialize Firebase database reference
         database = FirebaseDatabase.getInstance().getReference("Feedback")
 
-        // Load existing feedback
+        // Load existing feedback in real-time
         feedbackListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val feedbackList = StringBuilder()
                 if (snapshot.exists()) {
                     for (feedback in snapshot.children) {
                         val feedbackText = feedback.getValue(String::class.java)
-                        if (!feedbackText.isNullOrEmpty()) {
-                            feedbackList.append("- $feedbackText\n\n")
+                        val feedbackKey = feedback.key
+                        if (!feedbackText.isNullOrEmpty() && feedbackKey != null) {
+                            // Exclude feedback submitted by the user
+                            if (!submittedFeedbackKeys.contains(feedbackKey)) {
+                                feedbackList.append("- $feedbackText\n\n")
+                            }
                         } else {
                             feedbackList.append("- (Invalid feedback entry)\n\n")
                         }
@@ -58,12 +67,13 @@ class ViewFeedbackActivity : AppCompatActivity() {
                 Toast.makeText(this@ViewFeedbackActivity, "Error: ${error.message}", Toast.LENGTH_LONG).show()
             }
         }
+        // Attach the listener to the Firebase database to listen for changes in real-time
         database.addValueEventListener(feedbackListener)
 
-        // Add TextWatcher to enable/disable submit button dynamically
+        // Enable/disable submit button dynamically based on input
         feedbackInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                submitButton.isEnabled = !s.isNullOrEmpty()
+                submitButton.isEnabled = !s.isNullOrEmpty() // Disable submit button if input is empty
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -90,14 +100,17 @@ class ViewFeedbackActivity : AppCompatActivity() {
             return
         }
 
-        // Push feedback to the database
+        // Push feedback to the database and store the key of the new feedback
         val newFeedbackRef = database.push()
         newFeedbackRef.setValue(feedbackText)
             .addOnSuccessListener {
+                // Save the key of the newly added feedback to exclude it in the list
+                newFeedbackRef.key?.let { submittedFeedbackKeys.add(it) }
                 Toast.makeText(this, "Feedback submitted successfully!", Toast.LENGTH_SHORT).show()
                 feedbackInput.text.clear() // Clear the input field
             }
             .addOnFailureListener { error ->
+                // Show error if submission fails
                 Toast.makeText(this, "Error: ${error.message}", Toast.LENGTH_LONG).show()
             }
     }

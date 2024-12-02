@@ -97,7 +97,7 @@ class SignUpActivity : AppCompatActivity() {
                         // Email does not exist; proceed with saving the new user
                         val userType = if (selectedId == R.id.radio_tutor) "tutor" else "student"
                         val concatId = database.push().key!!
-                        val user = Users(concatId, fullName, email, hashedPassword, userType)
+                        val user = Users(concatId, fullName, email, hashedPassword, userType,false)
 
                         database.child(concatId).setValue(user).addOnSuccessListener {
                             Toast.makeText(this, "Successfully Saved", Toast.LENGTH_SHORT).show()

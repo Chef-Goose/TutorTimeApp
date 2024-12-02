@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -130,6 +132,20 @@
             android:label="TimeSelection"
             android:exported="false" />
 
+        <activity
+            android:name=".StudentInstantSession"
+            android:label="InsantSession"
+            android:exported="false" />
+
+        <activity
+            android:name=".TutorOnboarding"
+            android:label="Onboarding"
+            android:exported="false" />
+
+        <meta-data
+
+            android:name="com.google.android.geo_API_KEY"
+            android:value="@string/google_map_api_key" />
 
     </application>
 

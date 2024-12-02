@@ -106,7 +106,18 @@
         <activity
             android:name=".StudentEnroll"
             android:label="Enroll"
-            android:exported="false" />
+
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:configChanges="orientation|screenSize|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="com.example.tutorapp"/>
+            </intent-filter>
+        </activity>
+
 
         <activity
             android:name=".NotificationActivity"
@@ -130,7 +141,22 @@
             android:label="TimeSelection"
             android:exported="false" />
 
+
         <activity
+            android:name=".StudentInstantSession"
+            android:label="InsantSession"
+            android:exported="false" />
+
+        <activity
+            android:name=".TutorOnboarding"
+            android:label="Onboarding"
+            android:exported="false" />
+        <meta-data
+            android:name="com.google.android.geo_API_KEY"
+            android:value="@string/google_map_api_key" />
+
+        <activity
+
             android:name=".DirectorDashboardActivity"
             android:label="Director Dashboard"
             android:exported="true" />

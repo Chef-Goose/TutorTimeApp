@@ -73,7 +73,7 @@ class StudentEnroll : AppCompatActivity() {
                     for (tutorSnapshot in snapshot.children) {
                         val tutorAvailability = tutorSnapshot.getValue(TutorAvailability::class.java)
                         if (tutorAvailability != null && tutorAvailability.date == date) {
-                            addTutorToTable(tutorAvailability, tutorSnapshot.key!!)
+                            addTutorToTable(tutorAvailability)
                             tutorFound = true
                         }
                     }
@@ -92,7 +92,7 @@ class StudentEnroll : AppCompatActivity() {
         })
     }
 
-    private fun addTutorToTable(tutor: TutorAvailability, tutorId: String) {
+    private fun addTutorToTable(tutor: TutorAvailability) {
         val row = TableRow(this)
 
         // Create a TextView for the tutor's name
@@ -115,7 +115,7 @@ class StudentEnroll : AppCompatActivity() {
         enrollButton.text = "Enroll"
         enrollButton.layoutParams = TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f)
         enrollButton.setOnClickListener {
-            enrollStudentWithTutor(tutor, tutorId)
+            enrollStudentWithTutor(tutor)
         }
 
         // Add all the views to the row
@@ -128,12 +128,12 @@ class StudentEnroll : AppCompatActivity() {
         tableLayout.addView(row)
     }
 
-    private fun enrollStudentWithTutor(tutor: TutorAvailability, tutorId: String) {
+    private fun enrollStudentWithTutor(tutor: TutorAvailability) {
         if (currentUserId.isNotEmpty()) {
             // Create a new enrollment entry in the database
             val enrollment = mapOf(
                 "studentId" to currentUserId,
-                "tutorId" to tutorId,  // Use the tutor's unique ID
+                "tutorId" to tutor.name,  // Assuming you have tutor's ID in the TutorAvailability object
                 "course" to tutor.course,
                 "date" to tutor.date,
                 "timeSlot" to tutor.timeSlot
@@ -142,9 +142,6 @@ class StudentEnroll : AppCompatActivity() {
             // Add the enrollment to the "student_tutor_enrollments" node
             enrollmentsRef.push().setValue(enrollment)
                 .addOnSuccessListener {
-                    // Remove tutor availability from Firebase
-                    removeTutorAvailability(tutorId)
-
                     Toast.makeText(this, "You have successfully enrolled with ${tutor.name}!", Toast.LENGTH_SHORT).show()
                 }
                 .addOnFailureListener {
@@ -153,17 +150,6 @@ class StudentEnroll : AppCompatActivity() {
         } else {
             Toast.makeText(this, "You need to log in to enroll.", Toast.LENGTH_SHORT).show()
         }
-    }
-
-    private fun removeTutorAvailability(tutorId: String) {
-        // Remove the tutor's availability from the "tutor_availabilities" node
-        availabilityRef.child(tutorId).removeValue()
-            .addOnSuccessListener {
-                Toast.makeText(this, "Tutor availability removed.", Toast.LENGTH_SHORT).show()
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Failed to remove tutor availability.", Toast.LENGTH_SHORT).show()
-            }
     }
 
     private fun formatDate(date: Long): String {

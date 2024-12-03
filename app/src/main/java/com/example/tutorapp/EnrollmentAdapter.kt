@@ -67,35 +67,18 @@ class EnrollmentAdapter(
     private fun cancelEnrollment(enrollment: Enrollment, position: Int) {
         val databaseRef = FirebaseDatabase.getInstance().reference.child("student_tutor_enrollments")
 
-        val enrollmentRef = databaseRef.orderByChild("studentId")
-            .equalTo(enrollment.studentId)
-            .limitToFirst(1)
+        // Directly reference the enrollment by its unique enrollmentId
+        val enrollmentRef = databaseRef.child(enrollment.enrollmentId)  // Use the unique enrollmentId
 
-        enrollmentRef.addListenerForSingleValueEvent(object : com.google.firebase.database.ValueEventListener {
-            override fun onDataChange(snapshot: com.google.firebase.database.DataSnapshot) {
-                if (snapshot.exists()) {
-                    for (enrollmentSnapshot in snapshot.children) {
-                        if (enrollmentSnapshot.child("course").value == enrollment.course) {
-                            enrollmentSnapshot.ref.removeValue()
-                                .addOnCompleteListener { task ->
-                                    if (task.isSuccessful) {
-                                        enrollments.removeAt(position)
-                                        notifyDataSetChanged()
-                                        Toast.makeText(context, "Enrollment canceled successfully.", Toast.LENGTH_SHORT).show()
-                                    } else {
-                                        Toast.makeText(context, "Failed to cancel enrollment.", Toast.LENGTH_SHORT).show()
-                                    }
-                                }
-                        }
-                    }
+        enrollmentRef.removeValue()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    enrollments.removeAt(position)  // Remove it from the list
+                    notifyDataSetChanged()  // Update the list in the UI
+                    Toast.makeText(context, "Enrollment canceled successfully.", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(context, "Enrollment not found.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Failed to cancel enrollment.", Toast.LENGTH_SHORT).show()
                 }
             }
-
-            override fun onCancelled(error: com.google.firebase.database.DatabaseError) {
-                Toast.makeText(context, "Error canceling enrollment: ${error.message}", Toast.LENGTH_SHORT).show()
-            }
-        })
     }
 }

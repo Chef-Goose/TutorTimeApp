@@ -52,7 +52,7 @@
         android:id="@+id/btnViewTutorProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View Tutor"
+        android:text="View Student"
         android:textColor="#007BFF"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="16dp"/>

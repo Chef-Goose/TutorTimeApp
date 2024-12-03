@@ -13,7 +13,7 @@ import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
 import java.util.*
 
-class EnrollmentAdapter(
+class StudentProfileAdapter(
     private val context: Context,
     private val enrollments: MutableList<Enrollment>
 ) : BaseAdapter() {
@@ -33,7 +33,7 @@ class EnrollmentAdapter(
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val enrollment = getItem(position) as Enrollment
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view = inflater.inflate(R.layout.enrollment_item, null)
+        val view = inflater.inflate(R.layout.profile_student_item, null)
 
         val courseTextView = view.findViewById<TextView>(R.id.enrollment_course)
         val timeSlotTextView = view.findViewById<TextView>(R.id.enrollment_time_slot)
@@ -51,8 +51,8 @@ class EnrollmentAdapter(
 
         // Navigate to TutorProfile with the tutorId
         viewTutorButton.setOnClickListener {
-            val intent = Intent(context, TutorProfile::class.java)
-            intent.putExtra("tutorId", enrollment.tutorId)  // Pass the tutorId
+            val intent = Intent(context, StudentProfileforview::class.java)
+            intent.putExtra("studentId", enrollment.studentId)  // Pass the studentId
             context.startActivity(intent)
         }
 

@@ -141,6 +141,14 @@
             android:name=".TutorTimeSelection"
             android:label="TimeSelection"
             android:exported="false" />
+        <activity
+            android:name=".StudentProfileforview"
+            android:label="Profile"
+            android:exported="false" />
+        <activity
+            android:name=".TutorProfileBio"
+            android:label="TutorBio"
+            android:exported="false" />
 
         <activity
             android:name=".StudentInstantSession"

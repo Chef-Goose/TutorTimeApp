@@ -86,14 +86,7 @@ class TutorDashboardNavBar : AppCompatActivity() {
         // Profile button
         val btnProfileView = findViewById<ImageButton>(R.id.profile_button)
         btnProfileView.setOnClickListener {
-            val intent = Intent(this@TutorDashboardNavBar, TutorProfile::class.java)
-            startActivity(intent)
-        }
-
-        // Calendar button
-        val btnCalender = findViewById<ImageButton>(R.id.calender)
-        btnCalender.setOnClickListener {
-            val intent = Intent(this@TutorDashboardNavBar, TutorCalenderActivity::class.java)
+            val intent = Intent(this@TutorDashboardNavBar, TutorProfileBio::class.java)
             startActivity(intent)
         }
 

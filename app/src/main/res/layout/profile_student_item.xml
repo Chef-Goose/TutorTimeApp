@@ -40,13 +40,6 @@
     </LinearLayout>
 
     <!-- Cancel button to remove the enrollment -->
-    <Button
-        android:id="@+id/btnCancelEnrollment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cancel"
-        android:textColor="#FF0000"
-        android:layout_gravity="center_vertical"/>
 
     <Button
         android:id="@+id/btnViewTutorProfile"

@@ -13,6 +13,7 @@ class TutorNotificationActivity : AppCompatActivity() {
     private lateinit var eventListView: ListView
     private lateinit var currentUserId: String
     private val enrollmentsRef = FirebaseDatabase.getInstance().reference.child("student_tutor_enrollments")
+    private val usersRef = FirebaseDatabase.getInstance().reference.child("Users")  // Reference to the Users database
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,17 +38,37 @@ class TutorNotificationActivity : AppCompatActivity() {
         // Set up the ListView to display enrollments
         eventListView = findViewById(R.id.event_list)
 
-        // Fetch the student's enrollments from Firebase
+        // Fetch the user's full name and enrollments
         if (currentUserId.isNotEmpty()) {
-            fetchEnrollments()
+            fetchUserFullNameAndEnrollments()
         } else {
             Toast.makeText(this, "You need to log in to view your enrollments.", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun fetchEnrollments() {
-        // Query the database to get the current user's enrollments
-        enrollmentsRef.orderByChild("tutorId").equalTo(currentUserId).addValueEventListener(object : ValueEventListener {
+    private fun fetchUserFullNameAndEnrollments() {
+        // Query the Users database to get the fullName for the current user
+        usersRef.child(currentUserId).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val fullName = snapshot.child("fullName").getValue(String::class.java)
+
+                if (fullName != null) {
+                    // Now that we have the full name, let's fetch the enrollments
+                    fetchEnrollmentsForTutor(fullName)
+                } else {
+                    Toast.makeText(this@TutorNotificationActivity, "Error fetching user data.", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@TutorNotificationActivity, "Error fetching user data: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun fetchEnrollmentsForTutor(fullName: String) {
+        // Query the enrollments to find records where tutorId matches the fullName
+        enrollmentsRef.orderByChild("tutorId").equalTo(fullName).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val enrollments = mutableListOf<Enrollment>()
                 if (snapshot.exists()) {
@@ -57,7 +78,7 @@ class TutorNotificationActivity : AppCompatActivity() {
                     }
 
                     // Set up the ListView with the data
-                    val adapter = EnrollmentAdapter(this@TutorNotificationActivity, enrollments)
+                    val adapter = StudentProfileAdapter(this@TutorNotificationActivity, enrollments)
                     eventListView.adapter = adapter
                 } else {
                     Toast.makeText(this@TutorNotificationActivity, "You have no enrollments.", Toast.LENGTH_SHORT).show()

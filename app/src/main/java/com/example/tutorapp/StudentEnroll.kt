@@ -1,6 +1,8 @@
 package com.example.tutorapp
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TableLayout
@@ -8,25 +10,46 @@ import android.widget.TableRow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.paypal.android.corepayments.*
+import com.paypal.android.paypalwebpayments.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
+import okio.IOException
+
+
 import java.text.SimpleDateFormat
 import java.util.*
 
+
+
 class StudentEnroll : AppCompatActivity() {
 
+    private lateinit var selectedTutor: TutorAvailability
     private lateinit var tableLayout: TableLayout
     private val database = FirebaseDatabase.getInstance()
     private val availabilityRef = database.reference.child("tutor_availabilities")
     private val enrollmentsRef: DatabaseReference = database.reference.child("student_tutor_enrollments")
     private lateinit var currentUserId: String  // To hold the current student's ID
 
+    private val orderCreator = PayPalOrderCreator()
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.tutors_found)
+
 
         // Initialize SharedPreferences
         UserPreferences.init(this)
@@ -57,39 +80,55 @@ class StudentEnroll : AppCompatActivity() {
             onBackPressed()  // Go back to the previous activity
         }
 
+
         // Fetch tutors for the selected course and date
         if (selectedCourse != null) {
             getTutors(selectedCourse, selectedDate)
         }
     }
 
+
+
+
+
     private fun getTutors(course: String, date: Long) {
-        availabilityRef.orderByChild("course").equalTo(course).addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                tableLayout.removeAllViews() // Clear previous results
+        availabilityRef.orderByChild("course").equalTo(course)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    tableLayout.removeAllViews() // Clear previous results
 
-                if (snapshot.exists()) {
-                    var tutorFound = false
-                    for (tutorSnapshot in snapshot.children) {
-                        val tutorAvailability = tutorSnapshot.getValue(TutorAvailability::class.java)
-                        if (tutorAvailability != null && tutorAvailability.date == date) {
-                            addTutorToTable(tutorAvailability)
-                            tutorFound = true
+                    if (snapshot.exists()) {
+                        var tutorFound = false
+                        for (tutorSnapshot in snapshot.children) {
+                            val tutorAvailability =
+                                tutorSnapshot.getValue(TutorAvailability::class.java)
+                            if (tutorAvailability != null && tutorAvailability.date == date) {
+                                addTutorToTable(tutorAvailability)
+                                tutorFound = true
+                            }
                         }
-                    }
 
-                    if (!tutorFound) {
-                        Toast.makeText(this@StudentEnroll, "No tutors available for this course and date.", Toast.LENGTH_SHORT).show()
+                        if (!tutorFound) {
+                            Toast.makeText(
+                                this@StudentEnroll,
+                                "No tutors available for this course and date.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    } else {
+                        Toast.makeText(
+                            this@StudentEnroll,
+                            "No tutors available for this course.",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
-                } else {
-                    Toast.makeText(this@StudentEnroll, "No tutors available for this course.", Toast.LENGTH_SHORT).show()
                 }
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@StudentEnroll, "Error fetching tutors", Toast.LENGTH_SHORT).show()
-            }
-        })
+                override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(this@StudentEnroll, "Error fetching tutors", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            })
     }
 
     private fun addTutorToTable(tutor: TutorAvailability) {
@@ -115,7 +154,8 @@ class StudentEnroll : AppCompatActivity() {
         enrollButton.text = "Enroll"
         enrollButton.layoutParams = TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f)
         enrollButton.setOnClickListener {
-            enrollStudentWithTutor(tutor)
+            selectedTutor = tutor
+            startPayPalPayment("40.00","CAD")
         }
 
         // Add all the views to the row
@@ -127,6 +167,44 @@ class StudentEnroll : AppCompatActivity() {
         // Add the row to the TableLayout
         tableLayout.addView(row)
     }
+
+
+    private fun startPayPalPayment(amount: String, currency: String) {
+
+        val paypal_client_id = "AeXROYuQMXFFQ7H99Qghs07CqXiU1bnzgoc2OlPDzKB4-7J3UoughuHzQ_kysmtCRQust1tpxc2tpsv_"
+        val coreConfig = CoreConfig(paypal_client_id, Environment.SANDBOX)
+        val payPalWebCheckoutClient =
+            PayPalWebCheckoutClient(this@StudentEnroll, coreConfig, "com.example.tutorapp://paypal")
+
+
+
+
+
+        orderCreator.createOrder(amount, currency) { orderId ->
+            if (orderId != null && orderId.isNotEmpty()) {
+                val checkoutRequest = PayPalWebCheckoutRequest(orderId, fundingSource = PayPalWebCheckoutFundingSource.PAYPAL)
+                Log.d("PayPal", "Order ID: $orderId")
+                // Set the listener to handle the result of the checkout process
+
+
+
+
+                payPalWebCheckoutClient.start(
+                    activity = this,
+                    request = checkoutRequest
+                )
+
+
+            } else {
+                println("Failed to create PayPal order.")
+            }
+
+        }
+
+    }
+
+
+
 
     private fun enrollStudentWithTutor(tutor: TutorAvailability) {
         if (currentUserId.isNotEmpty()) {
@@ -152,8 +230,37 @@ class StudentEnroll : AppCompatActivity() {
         }
     }
 
+
+
     private fun formatDate(date: Long): String {
-        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val sdf = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
         return sdf.format(Date(date))
     }
+    override fun onNewIntent(newIntent: Intent?) {
+        super.onNewIntent(newIntent)
+
+        intent = newIntent
+
+
+        val data = intent?.data
+
+        val opType = data?.getQueryParameter("opType")
+        val token = data?.getQueryParameter("token")
+        Log.d("PayPal", "opType: $opType,  token: $token")
+        Log.d("PayPal", "selectedTutor: $selectedTutor!!")
+
+
+        if (token != null) {
+            orderCreator.captureOrder(token) { success ->}
+            enrollStudentWithTutor(selectedTutor)
+
+        }
+    }
+
+
+
+
+
+
+
 }

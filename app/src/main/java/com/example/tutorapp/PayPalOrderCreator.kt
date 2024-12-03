@@ -15,6 +15,7 @@ import java.io.IOException
 
 
 class PayPalOrderCreator {
+    private var token: String? = null
 
     private val client = OkHttpClient()
     private val gson = Gson()
@@ -61,22 +62,25 @@ class PayPalOrderCreator {
             }
         }
     }
+
     // Add this function to capture the PayPal order
     fun captureOrder(orderId: String, callback: (Boolean) -> Unit) {
         GlobalScope.launch(Dispatchers.Main) {
-            val token = initializeAccessToken()
+
             if (token == null) {
                 Log.e("PayPal", "Access token is null.")
                 callback(false) // Inform the caller of failure
                 return@launch
             }
+            Log.d("Hello", "captureOrder Starting")
 
             val url = "https://api-m.sandbox.paypal.com/v2/checkout/orders/$orderId/capture"
 
             val request = Request.Builder()
                 .url(url)
-                .addHeader("Authorization", "Bearer $token")
-                .post("".toRequestBody(null)) // Empty POST request
+                .addHeader("Authorization", "Bearer $token") // Access token
+                .addHeader("Content-Type", "application/json") // Required content type
+                .post("".toRequestBody("application/json".toMediaTypeOrNull())) // Empty JSON payload
                 .build()
 
             client.newCall(request).enqueue(object : Callback {
@@ -91,7 +95,10 @@ class PayPalOrderCreator {
                         callback(true) // Inform the caller of success
                     } else {
                         val responseBody = response.body?.string()
-                        Log.e("PayPalCaptureError", "Error capturing PayPal order: ${response.message}")
+                        Log.e(
+                            "PayPalCaptureError",
+                            "Error capturing PayPal order: ${response.message}"
+                        )
                         Log.d("PayPalResponse", "Response Body: $responseBody")
                         callback(false) // Handle failure
                     }
@@ -101,9 +108,9 @@ class PayPalOrderCreator {
     }
 
     // Create order function that now directly uses accessToken
-    fun createOrder(amount: String, currency: String, returnUrl: String, callback: (String?) -> Unit) {
+    fun createOrder(amount: String, currency: String, callback: (String?) -> Unit) {
         GlobalScope.launch(Dispatchers.Main) {
-            val token = initializeAccessToken() // This will now return the token asynchronously
+            token = initializeAccessToken() // This will now return the token asynchronously
             if (token == null) {
                 Log.e("PayPal", "Access token is null.")
                 callback(null)
@@ -111,7 +118,8 @@ class PayPalOrderCreator {
             }
             Log.d("PayPal", "Access Token retrieved: $token")
 
-            val url = "https://api-m.sandbox.paypal.com/v2/checkout/orders" // Ensure sandbox environment
+            val url =
+                "https://api-m.sandbox.paypal.com/v2/checkout/orders" // Ensure sandbox environment
 
             val jsonBody = """
                 {
@@ -124,8 +132,16 @@ class PayPalOrderCreator {
                             }
                         }
                     ],
-                    "application_context": {
-                        "return_url": "$returnUrl"
+                    "payment_source": {
+                        "paypal": {
+                            "experience_context": {
+                                "payment_method_preference": "IMMEDIATE_PAYMENT_REQUIRED",
+                                "brand_name": "FIVE GUYS LTD.",
+                                "locale": "en-US",
+                                "landing_page": "LOGIN",
+                                "user_action": "PAY_NOW"
+                            }
+                        }
                     }
                 }
             """.trimIndent()
@@ -150,7 +166,8 @@ class PayPalOrderCreator {
                     if (response.isSuccessful) {
                         val responseBody = response.body?.string()
                         Log.d("PayPalResponse", "Response Body: $responseBody")
-                        val orderResponse = gson.fromJson(responseBody, PayPalOrderResponse::class.java)
+                        val orderResponse =
+                            gson.fromJson(responseBody, PayPalOrderResponse::class.java)
                         callback(orderResponse.id) // Pass the valid orderId
                     } else {
                         val responseBody = response.body?.string()
@@ -164,17 +181,16 @@ class PayPalOrderCreator {
         }
     }
 
-    }
 
+    // Data class to handle PayPal order response
+    data class PayPalOrderResponse(
+        val id: String,
+        val links: List<PayPalLink>
+    )
 
-// Data class to handle PayPal order response
-data class PayPalOrderResponse(
-    val id: String,
-    val links: List<PayPalLink>
-)
-
-data class PayPalLink(
-    val rel: String,
-    val href: String,
-    val method: String
-)
+    data class PayPalLink(
+        val rel: String,
+        val href: String,
+        val method: String
+    )
+}

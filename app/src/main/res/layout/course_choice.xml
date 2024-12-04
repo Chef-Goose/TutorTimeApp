@@ -43,12 +43,23 @@
         android:spinnerMode="dropdown"
         android:hint="@string/select_course_hint" />
 
+    <Spinner
+        android:id="@+id/spinner_levels"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_below="@id/spinner_courses"
+        android:entries="@array/grade_levels"
+        android:spinnerMode="dropdown"
+        android:hint="@string/select_grade_hint" />
+
     <!-- Calendar View for Date Selection -->
     <CalendarView
         android:id="@+id/calendarView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/spinner_courses"
+        android:layout_below="@id/spinner_levels"
         android:layout_marginTop="16dp"
         android:layout_marginStart="31dp" />
 

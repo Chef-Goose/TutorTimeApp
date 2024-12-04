@@ -32,15 +32,13 @@
         android:layout_below="@id/logo"
         android:layout_margin="16dp"
         android:backgroundTint="@android:color/holo_blue_light" />
-    <FrameLayout
-        android:id="@+id/mapContainer"
+
+
+    <WebView
+        android:id="@+id/map_webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/location_button"
-        android:visibility="gone">
-
-
-    </FrameLayout>
+        android:visibility="gone" />
 
 
 </RelativeLayout>

@@ -34,6 +34,7 @@ class StudentEnroll : AppCompatActivity() {
         // Get the selected course and date from the Intent
         val selectedCourse = intent.getStringExtra("selectedCourse")
         val selectedDate = intent.getLongExtra("selectedDate", 0L)
+        val selectedGrade = intent.getStringExtra("selectedGrade")
 
         tableLayout = findViewById(R.id.table)
 
@@ -59,11 +60,11 @@ class StudentEnroll : AppCompatActivity() {
 
         // Fetch tutors for the selected course and date
         if (selectedCourse != null) {
-            getTutors(selectedCourse, selectedDate)
+            getTutors(selectedCourse, selectedDate,selectedGrade?:"")
         }
     }
 
-    private fun getTutors(course: String, date: Long) {
+    private fun getTutors(course: String, date: Long, grade: String) {
         availabilityRef.orderByChild("course").equalTo(course).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 tableLayout.removeAllViews() // Clear previous results
@@ -72,7 +73,7 @@ class StudentEnroll : AppCompatActivity() {
                     var tutorFound = false
                     for (tutorSnapshot in snapshot.children) {
                         val tutorAvailability = tutorSnapshot.getValue(TutorAvailability::class.java)
-                        if (tutorAvailability != null && tutorAvailability.date == date) {
+                        if (tutorAvailability != null && tutorAvailability.date == date && tutorAvailability.gradeLevel.toInt() >= grade.toInt()) {
                             addTutorToTable(tutorAvailability)
                             tutorFound = true
                         }

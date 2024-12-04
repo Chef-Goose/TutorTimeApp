@@ -5,5 +5,6 @@ data class TutorAvailability(
     val timeSlot: String = "",
     val certificate: String = "",
     val date: Long = 0L,
-    val name: String = "" // Add tutor name
+    val name: String = "", // Add tutor name
+    val gradeLevel: String = ""
 )

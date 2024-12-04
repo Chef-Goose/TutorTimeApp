@@ -22,6 +22,22 @@
         <item>English</item>
     </string-array>
 
+    <string-array name="grade_levels">
+        <item>Select Grade</item>
+        <item>Grade 1</item>
+        <item>Grade 2</item>
+        <item>Grade 3</item>
+        <item>Grade 4</item>
+        <item>Grade 5</item>
+        <item>Grade 6</item>
+        <item>Grade 7</item>
+        <item>Grade 8</item>
+        <item>Grade 9</item>
+        <item>Grade 10</item>
+        <item>Grade 11</item>
+        <item>Grade 12</item>
+    </string-array>
+
     <string-array name="time_list">
         <item>Select Time</item>
         <item>4:00 PM</item>
@@ -34,6 +50,7 @@
 
     <!-- Spinner Hint Strings -->
     <string name="select_course_hint">Select Course</string>
+    <string name="select_grade_hint">Select Grade</string>
     <string name="select_time_hint">Select Time</string>
     <string name="google_map_api_key">REMOVED</string>
 

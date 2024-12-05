@@ -59,8 +59,6 @@ class NotificationActivity : AppCompatActivity() {
                     // Set up the ListView with the data
                     val adapter = EnrollmentAdapter(this@NotificationActivity, enrollments)
                     eventListView.adapter = adapter
-                } else {
-                    Toast.makeText(this@NotificationActivity, "You have no enrollments.", Toast.LENGTH_SHORT).show()
                 }
             }
 

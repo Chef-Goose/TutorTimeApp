@@ -37,11 +37,11 @@
         android:id="@+id/spinner_courses"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="260dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="220dp"
         android:entries="@array/course_list"
-        android:spinnerMode="dropdown"
-        android:hint="@string/select_course_hint" />
+        android:hint="@string/select_course_hint"
+        android:spinnerMode="dropdown" />
 
     <Spinner
         android:id="@+id/spinner_levels"

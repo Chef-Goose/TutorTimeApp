@@ -13,7 +13,7 @@ import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
 import java.util.*
 
-class EnrollmentAdapter(
+class StudentProfileAdapter(
     private val context: Context,
     private val enrollments: MutableList<Enrollment>
 ) : BaseAdapter() {
@@ -33,7 +33,7 @@ class EnrollmentAdapter(
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val enrollment = getItem(position) as Enrollment
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val view = inflater.inflate(R.layout.enrollment_item, null)
+        val view = inflater.inflate(R.layout.profile_student_item, null)
 
         val courseTextView = view.findViewById<TextView>(R.id.enrollment_course)
         val timeSlotTextView = view.findViewById<TextView>(R.id.enrollment_time_slot)
@@ -45,14 +45,11 @@ class EnrollmentAdapter(
         timeSlotTextView.text = enrollment.timeSlot
         dateTextView.text = formatDate(enrollment.date)
 
-        cancelButton.setOnClickListener {
-            cancelEnrollment(enrollment, position)
-        }
 
         // Navigate to TutorProfile with the tutorId
         viewTutorButton.setOnClickListener {
-            val intent = Intent(context, TutorProfile::class.java)
-            intent.putExtra("tutorId", enrollment.tutorId)  // Pass the tutorId
+            val intent = Intent(context, StudentProfileforview::class.java)
+            intent.putExtra("studentId", enrollment.studentId)  // Pass the studentId
             context.startActivity(intent)
         }
 
@@ -62,23 +59,5 @@ class EnrollmentAdapter(
     private fun formatDate(date: Long): String {
         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         return sdf.format(Date(date))
-    }
-
-    private fun cancelEnrollment(enrollment: Enrollment, position: Int) {
-        val databaseRef = FirebaseDatabase.getInstance().reference.child("student_tutor_enrollments")
-
-        // Directly reference the enrollment by its unique enrollmentId
-        val enrollmentRef = databaseRef.child(enrollment.enrollmentId)  // Use the unique enrollmentId
-
-        enrollmentRef.removeValue()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    enrollments.removeAt(position)  // Remove it from the list
-                    notifyDataSetChanged()  // Update the list in the UI
-                    Toast.makeText(context, "Enrollment canceled successfully.", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(context, "Failed to cancel enrollment.", Toast.LENGTH_SHORT).show()
-                }
-            }
     }
 }

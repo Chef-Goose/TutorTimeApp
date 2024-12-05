@@ -28,7 +28,7 @@ class DirectorDashboardActivity : AppCompatActivity() {
 
         // Navigate to the feedback page
         viewReportsButton.setOnClickListener {
-            startActivity(Intent(this, ViewFeedbackActivity::class.java))
+            startActivity(Intent(this, DirectorViewFeedback::class.java))
         }
 
         // Sign out

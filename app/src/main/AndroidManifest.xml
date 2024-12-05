@@ -157,12 +157,17 @@
             android:exported="false" />
         <activity
             android:name=".StudentFeedback"
-            android:label="TutorNotification"
+            android:label="StudentFeedback"
             android:exported="false" />
 
         <activity
             android:name=".DirectorViewFeedback"
-            android:label="TutorNotification"
+            android:label="Feedback"
+            android:exported="false" />
+
+        <activity
+            android:name=".ViewCancellations"
+            android:label="Cancellations"
             android:exported="false" />
 
         <activity

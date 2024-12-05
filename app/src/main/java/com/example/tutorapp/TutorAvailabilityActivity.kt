@@ -114,7 +114,8 @@ class TutorAvailabilityActivity : AppCompatActivity() {
                     certificate = certificate,
                     date = selectedDateMillis, // Use the selected date in milliseconds
                     name = fullName,  // Store the full name
-                    gradeLevel = finalGrade
+                    gradeLevel = finalGrade,
+                    tutorId = userID
                 )
 
                 // Push the data to Firebase Realtime Database under the tutor_availabilities node

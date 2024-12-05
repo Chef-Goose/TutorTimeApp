@@ -31,7 +31,6 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import okio.IOException
 
-
 class StudentEnroll : AppCompatActivity() {
     private var tutorid = ""
     private val orderCreator = PayPalOrderCreator()
@@ -41,7 +40,7 @@ class StudentEnroll : AppCompatActivity() {
     private val availabilityRef = database.reference.child("tutor_availabilities")
     private val enrollmentsRef: DatabaseReference = database.reference.child("student_tutor_enrollments")
     private lateinit var currentUserId: String  // To hold the current student's ID
-
+    private lateinit var currentUserName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +53,8 @@ class StudentEnroll : AppCompatActivity() {
         val selectedCourse = intent.getStringExtra("selectedCourse")
         val selectedDate = intent.getLongExtra("selectedDate", 0L)
         val selectedGrade = intent.getStringExtra("selectedGrade")
-
+        val fullName = intent.getStringExtra("fullName")
+        currentUserName = fullName?:""
         tableLayout = findViewById(R.id.table)
 
         // Display selected course and date
@@ -98,9 +98,7 @@ class StudentEnroll : AppCompatActivity() {
                         }
                     }
 
-                    if (!tutorFound) {
-                        Toast.makeText(this@StudentEnroll, "No tutors available for this course and date.", Toast.LENGTH_SHORT).show()
-                    }
+
                 } else {
                     Toast.makeText(this@StudentEnroll, "No tutors available for this course.", Toast.LENGTH_SHORT).show()
                 }
@@ -135,6 +133,7 @@ class StudentEnroll : AppCompatActivity() {
         enrollButton.text = "Enroll"
         enrollButton.layoutParams = TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f)
         enrollButton.setOnClickListener {
+
             tutorid = tutorId
             selectedTutor = tutor
             startPayPalPayment("40.00","CAD")
@@ -149,6 +148,7 @@ class StudentEnroll : AppCompatActivity() {
         // Add the row to the TableLayout
         tableLayout.addView(row)
     }
+
     private fun startPayPalPayment(amount: String, currency: String) {
 
         val paypal_client_id = "AeXROYuQMXFFQ7H99Qghs07CqXiU1bnzgoc2OlPDzKB4-7J3UoughuHzQ_kysmtCRQust1tpxc2tpsv_"
@@ -186,16 +186,20 @@ class StudentEnroll : AppCompatActivity() {
     private fun enrollStudentWithTutor(tutor: TutorAvailability,tutorId: String) {
         if (currentUserId.isNotEmpty()) {
             // Create a new enrollment entry in the database
+            val enrollmentId = enrollmentsRef.push().key
             val enrollment = mapOf(
                 "studentId" to currentUserId,
-                "tutorId" to tutor.name,  // Assuming you have tutor's ID in the TutorAvailability object
+                "tutorName" to tutor.name,  // Assuming you have tutor's ID in the TutorAvailability object
                 "course" to tutor.course,
                 "date" to tutor.date,
-                "timeSlot" to tutor.timeSlot
+                "timeSlot" to tutor.timeSlot,
+                "enrollmentId" to enrollmentId.toString(),
+                "tutorId" to tutor.tutorId,
+                "studentName" to currentUserName
             )
 
             // Add the enrollment to the "student_tutor_enrollments" node
-            enrollmentsRef.push().setValue(enrollment)
+            enrollmentsRef.child(enrollmentId!!).setValue(enrollment)
                 .addOnSuccessListener {
                     removeTutorAvailability(tutorId)
                     Toast.makeText(this, "You have successfully enrolled with ${tutor.name}!", Toast.LENGTH_SHORT).show()
@@ -244,3 +248,5 @@ class StudentEnroll : AppCompatActivity() {
         }
     }
 }
+
+

@@ -18,6 +18,7 @@
             android:id="@+id/enrollment_course"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="serif-monospace"
             android:text="Course Name"
             android:textSize="18sp"
             android:textColor="#000000"/>
@@ -26,6 +27,7 @@
             android:id="@+id/enrollment_time_slot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="serif-monospace"
             android:text="Time Slot"
             android:textSize="16sp"
             android:textColor="#555555"/>
@@ -34,6 +36,7 @@
             android:id="@+id/enrollment_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="serif-monospace"
             android:text="Date"
             android:textSize="14sp"
             android:textColor="#555555"/>
@@ -44,6 +47,7 @@
         android:id="@+id/btnCancelEnrollment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="serif-monospace"
         android:text="Cancel"
         android:textColor="#FF0000"
         android:layout_gravity="center_vertical"/>
@@ -52,6 +56,7 @@
         android:id="@+id/btnViewTutorProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="serif-monospace"
         android:text="View Tutor"
         android:textColor="#007BFF"
         android:layout_gravity="center_vertical"

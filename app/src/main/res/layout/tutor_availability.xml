@@ -6,8 +6,9 @@
 
     <!-- Logo Image -->
     <ImageView
+        android:id="@+id/imageView2"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="188dp"
         android:background="#F2B536"
         android:contentDescription="Logo"
         android:src="@drawable/logo" />
@@ -28,66 +29,86 @@
         android:id="@+id/spinner_courses"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="220dp"
+        android:layout_below="@+id/imageView2"
+        android:fontFamily="serif-monospace"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="0dp"
         android:entries="@array/course_list"
+        android:hint="@string/select_course_hint"
         android:spinnerMode="dropdown"
-        android:hint="@string/select_course_hint" />
+        android:translationY="-30dp" />
 
     <!-- EditText for typing certificate -->
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/tb_certificate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner_courses"
+        android:fontFamily="serif-monospace"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:background="@android:color/white"
         android:ems="10"
-        android:inputType="text"
         android:hint="Enter Certificate"
-        android:layout_below="@id/spinner_courses"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp" />
+        android:inputType="text"
+        android:translationY="-30dp" />
 
     <!-- Spinner for selecting time -->
     <Spinner
         android:id="@+id/spinner_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tb_certificate"
-        android:layout_marginTop="16dp"
+        android:layout_below="@+id/tb_certificate"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="serif-monospace"
         android:entries="@array/time_list"
+        android:hint="@string/select_time_hint"
         android:spinnerMode="dropdown"
-        android:hint="@string/select_time_hint" />
+        android:translationY="-30dp" />
 
     <Spinner
         android:id="@+id/spinner_grades"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/spinner_time"
-        android:layout_marginTop="16dp"
+        android:fontFamily="serif-monospace"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:entries="@array/grade_levels"
+        android:hint="@string/select_grade_hint"
         android:spinnerMode="dropdown"
-        android:hint="@string/select_grade_hint" />
+        android:translationY="-30dp" />
 
     <!-- Calendar view for picking a date -->
+
+    <!-- Save Availability Button -->
+
     <CalendarView
         android:id="@+id/calendarView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/spinner_grades"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="31dp" />
+        android:layout_height="305dp"
+        android:layout_below="@+id/spinner_grades"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="-35dp"
+        android:layout_marginEnd="30dp" />
 
-    <!-- Save Availability Button -->
     <Button
         android:id="@+id/btn_saveAvailability"
-        android:layout_width="wrap_content"
+        android:layout_width="209dp"
         android:layout_height="wrap_content"
-        android:text="Save Availability"
         android:layout_below="@id/calendarView"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="123dp" />
+        android:layout_alignStart="@+id/calendarView"
+        android:layout_alignEnd="@+id/calendarView"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="60dp"
+        android:fontFamily="serif-monospace"
+        android:text="Save Availability"
+        android:translationX="-15dp"
+        android:translationY="-15dp" />
 
 
 </RelativeLayout>

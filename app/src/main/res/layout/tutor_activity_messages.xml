@@ -19,6 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Select Students"
+        android:fontFamily="serif-monospace"
         android:textSize="24sp"
         android:textColor="#000000"
         android:layout_marginTop="100dp"
@@ -55,6 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="Type your message"
+            android:fontFamily="serif-monospace"
             android:padding="10dp"
             android:layout_alignParentStart="true"
             android:layout_toStartOf="@id/send_button"/>
@@ -64,6 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Send"
+            android:fontFamily="serif-monospace"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="8dp" />
     </RelativeLayout>

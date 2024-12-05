@@ -27,6 +27,7 @@
         android:id="@+id/editTextDate"
         android:textSize="20sp"
         android:text="Date: "
+        android:fontFamily="serif-monospace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="225dp"
@@ -36,6 +37,7 @@
     <TextView
         android:id="@+id/tb_CourseName"
         android:text="Course: "
+        android:fontFamily="serif-monospace"
         android:textSize="20sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,6 +48,7 @@
     <!-- Title TextView for Available Tutors -->
     <TextView
         android:text="Available Tutors"
+        android:fontFamily="serif-monospace"
         android:textSize="20sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

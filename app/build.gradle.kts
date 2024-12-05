@@ -64,6 +64,7 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("com.paypal.android:card-payments:2.0.0-beta1")
     implementation("com.paypal.android:paypal-web-payments:2.0.0-beta1")
+    implementation(libs.play.services.location)
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlin:kotlin-test:1.9.0")
     testImplementation("io.mockk:mockk:1.13.5") // Optional if you need mocking// For mocking dependencies if needed

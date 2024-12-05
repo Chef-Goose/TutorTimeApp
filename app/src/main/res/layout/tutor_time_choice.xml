@@ -51,6 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Apply Time"
+        android:fontFamily="serif-monospace"
         android:layout_alignBaseline="@id/timeSpinner"
         android:layout_marginStart="275dp"
         android:visibility="visible"/>

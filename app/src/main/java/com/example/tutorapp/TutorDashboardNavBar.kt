@@ -89,6 +89,12 @@ class TutorDashboardNavBar : AppCompatActivity() {
             val intent = Intent(this@TutorDashboardNavBar, TutorProfileBio::class.java)
             startActivity(intent)
         }
+        val btnCancellations = findViewById<Button>(R.id.cancellations_button)
+        btnCancellations.setOnClickListener{
+            val intent = Intent(this@TutorDashboardNavBar, ViewCancellations::class.java)
+            intent.putExtra("tutorId",userID)
+            startActivity(intent)
+        }
 
         // Messages button
         val btnMessages = findViewById<ImageButton>(R.id.notification_button)

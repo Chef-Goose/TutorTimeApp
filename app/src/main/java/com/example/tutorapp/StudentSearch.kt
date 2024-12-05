@@ -44,6 +44,7 @@ class StudentSearch : AppCompatActivity() {
         }
 
         // Search button click listener
+        val fullName = intent.getStringExtra("fullName")
         btnSearch.setOnClickListener {
             val selectedCourse = spinnerCourses.selectedItem.toString()
             val selectedGrade = spinnerGrades.selectedItem.toString()
@@ -55,6 +56,7 @@ class StudentSearch : AppCompatActivity() {
                 intent.putExtra("selectedCourse", selectedCourse)
                 intent.putExtra("selectedDate", selectedDateMillis)
                 intent.putExtra("selectedGrade",finalGrade)
+                intent.putExtra("fullName",fullName)
                 startActivity(intent)
             } else {
                 Toast.makeText(this, "Please select both a course and a date", Toast.LENGTH_SHORT).show()

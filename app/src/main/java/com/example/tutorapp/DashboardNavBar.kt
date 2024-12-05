@@ -16,6 +16,7 @@ import android.util.Log
 class DashboardNavBar : AppCompatActivity() {
 
     private lateinit var usersRef: DatabaseReference
+    private lateinit var currentUserName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +45,7 @@ class DashboardNavBar : AppCompatActivity() {
             usersRef.child(userID).get().addOnSuccessListener { dataSnapshot ->
                 if (dataSnapshot.exists()) {
                     val userFullName = dataSnapshot.child("fullName").value?.toString() ?: "User"
+                    currentUserName = userFullName
                     // Update the welcome text view with the full name
                     val welcomeTextView = findViewById<TextView>(R.id.welcome_message)
                     welcomeTextView.text = "Welcome, $userFullName"  // Set the dynamic welcome message
@@ -108,6 +110,7 @@ class DashboardNavBar : AppCompatActivity() {
         val btnBook = findViewById<Button>(R.id.subject_button)
         btnBook.setOnClickListener {
             val intent = Intent(this@DashboardNavBar, StudentSearch::class.java)
+                intent.putExtra("fullName",currentUserName)
             startActivity(intent)
         }
 

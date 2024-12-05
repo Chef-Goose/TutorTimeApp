@@ -43,7 +43,9 @@ class TutorOnboarding : AppCompatActivity() {
             )
             userRef.updateChildren(updates)
             val intent = Intent(this@TutorOnboarding,TutorDashboardNavBar::class.java)
-                startActivity(intent)
+
+            startActivity(intent)
+
 
         }
     }

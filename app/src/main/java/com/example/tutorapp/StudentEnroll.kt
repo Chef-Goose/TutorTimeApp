@@ -34,6 +34,7 @@ class StudentEnroll : AppCompatActivity() {
         // Get the selected course and date from the Intent
         val selectedCourse = intent.getStringExtra("selectedCourse")
         val selectedDate = intent.getLongExtra("selectedDate", 0L)
+        val selectedGrade = intent.getStringExtra("selectedGrade")
 
         tableLayout = findViewById(R.id.table)
 
@@ -59,11 +60,11 @@ class StudentEnroll : AppCompatActivity() {
 
         // Fetch tutors for the selected course and date
         if (selectedCourse != null) {
-            getTutors(selectedCourse, selectedDate)
+            getTutors(selectedCourse, selectedDate,selectedGrade?:"")
         }
     }
 
-    private fun getTutors(course: String, date: Long) {
+    private fun getTutors(course: String, date: Long, grade: String) {
         availabilityRef.orderByChild("course").equalTo(course).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 tableLayout.removeAllViews() // Clear previous results
@@ -72,8 +73,8 @@ class StudentEnroll : AppCompatActivity() {
                     var tutorFound = false
                     for (tutorSnapshot in snapshot.children) {
                         val tutorAvailability = tutorSnapshot.getValue(TutorAvailability::class.java)
-                        if (tutorAvailability != null && tutorAvailability.date == date) {
-                            addTutorToTable(tutorAvailability, tutorSnapshot.key!!)
+                        if (tutorAvailability != null && tutorAvailability.date == date && tutorAvailability.gradeLevel.toInt() >= grade.toInt()) {
+                            addTutorToTable(tutorAvailability,tutorSnapshot.key!!)
                             tutorFound = true
                         }
                     }
@@ -92,7 +93,7 @@ class StudentEnroll : AppCompatActivity() {
         })
     }
 
-    private fun addTutorToTable(tutor: TutorAvailability, tutorId: String) {
+    private fun addTutorToTable(tutor: TutorAvailability,tutorId: String) {
         val row = TableRow(this)
 
         // Create a TextView for the tutor's name
@@ -115,7 +116,7 @@ class StudentEnroll : AppCompatActivity() {
         enrollButton.text = "Enroll"
         enrollButton.layoutParams = TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f)
         enrollButton.setOnClickListener {
-            enrollStudentWithTutor(tutor, tutorId)
+            enrollStudentWithTutor(tutor,tutorId)
         }
 
         // Add all the views to the row
@@ -128,12 +129,12 @@ class StudentEnroll : AppCompatActivity() {
         tableLayout.addView(row)
     }
 
-    private fun enrollStudentWithTutor(tutor: TutorAvailability, tutorId: String) {
+    private fun enrollStudentWithTutor(tutor: TutorAvailability,tutorId: String) {
         if (currentUserId.isNotEmpty()) {
             // Create a new enrollment entry in the database
             val enrollment = mapOf(
                 "studentId" to currentUserId,
-                "tutorId" to tutorId,  // Use the tutor's unique ID
+                "tutorId" to tutor.name,  // Assuming you have tutor's ID in the TutorAvailability object
                 "course" to tutor.course,
                 "date" to tutor.date,
                 "timeSlot" to tutor.timeSlot
@@ -142,9 +143,7 @@ class StudentEnroll : AppCompatActivity() {
             // Add the enrollment to the "student_tutor_enrollments" node
             enrollmentsRef.push().setValue(enrollment)
                 .addOnSuccessListener {
-                    // Remove tutor availability from Firebase
                     removeTutorAvailability(tutorId)
-
                     Toast.makeText(this, "You have successfully enrolled with ${tutor.name}!", Toast.LENGTH_SHORT).show()
                 }
                 .addOnFailureListener {

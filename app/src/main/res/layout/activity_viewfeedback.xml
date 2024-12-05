@@ -45,6 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Sample Item 1"
+                android:fontFamily="serif-monospace"
                 android:textSize="18sp"
                 android:padding="8dp"
                 android:background="?android:attr/selectableItemBackground" />

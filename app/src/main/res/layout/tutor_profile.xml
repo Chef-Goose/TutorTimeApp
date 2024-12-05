@@ -40,6 +40,7 @@
         android:layout_below="@id/imageView"
         android:layout_marginTop="40dp"
         android:text="Full Name"
+        android:fontFamily="serif-monospace"
         android:textSize="30sp"
         android:textStyle="bold"
         android:layout_centerHorizontal="true" />
@@ -52,6 +53,7 @@
         android:layout_below="@id/fullNameTextView"
         android:layout_marginTop="16dp"
         android:text="Email Address"
+        android:fontFamily="serif-monospace"
         android:textSize="20sp"
         android:layout_centerHorizontal="true" />
 
@@ -63,6 +65,7 @@
         android:layout_below="@id/emailTextView"
         android:layout_marginTop="16dp"
         android:text="Role"
+        android:fontFamily="serif-monospace"
         android:textSize="20sp"
         android:layout_centerHorizontal="true" />
 
@@ -74,6 +77,7 @@
         android:layout_below="@id/roleTextView"
         android:layout_marginTop="16dp"
         android:text="Onboarding Status"
+        android:fontFamily="serif-monospace"
         android:textSize="18sp"
         android:layout_centerHorizontal="true" />
 
@@ -83,7 +87,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/onboardingTextView"
-
+        android:fontFamily="serif-monospace"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@android:color/holo_blue_light"
         android:enabled="true"

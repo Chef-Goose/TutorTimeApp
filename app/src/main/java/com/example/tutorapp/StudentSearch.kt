@@ -30,7 +30,7 @@ class StudentSearch : AppCompatActivity() {
         spinnerGrades = findViewById(R.id.spinner_levels)
         calendarView = findViewById(R.id.calendarView)
         btnSearch = findViewById(R.id.btn_StartSearch) // Initialize the Button
-        btnInstant = findViewById(R.id.btn_InstantSearch)
+
 
         // Set up the CalendarView to listen for date changes
         calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->

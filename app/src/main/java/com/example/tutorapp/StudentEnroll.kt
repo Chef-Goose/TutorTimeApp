@@ -1,6 +1,8 @@
 package com.example.tutorapp
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TableLayout
@@ -8,6 +10,7 @@ import android.widget.TableRow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.DataSnapshot
@@ -15,14 +18,30 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import java.text.SimpleDateFormat
 import java.util.*
+import com.paypal.android.corepayments.*
+import com.paypal.android.paypalwebpayments.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
+import okio.IOException
+
 
 class StudentEnroll : AppCompatActivity() {
-
+    private var tutorid = ""
+    private val orderCreator = PayPalOrderCreator()
+    private lateinit var selectedTutor: TutorAvailability
     private lateinit var tableLayout: TableLayout
     private val database = FirebaseDatabase.getInstance()
     private val availabilityRef = database.reference.child("tutor_availabilities")
     private val enrollmentsRef: DatabaseReference = database.reference.child("student_tutor_enrollments")
     private lateinit var currentUserId: String  // To hold the current student's ID
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,7 +135,9 @@ class StudentEnroll : AppCompatActivity() {
         enrollButton.text = "Enroll"
         enrollButton.layoutParams = TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f)
         enrollButton.setOnClickListener {
-            enrollStudentWithTutor(tutor,tutorId)
+            tutorid = tutorId
+            selectedTutor = tutor
+            startPayPalPayment("40.00","CAD")
         }
 
         // Add all the views to the row
@@ -127,6 +148,39 @@ class StudentEnroll : AppCompatActivity() {
 
         // Add the row to the TableLayout
         tableLayout.addView(row)
+    }
+    private fun startPayPalPayment(amount: String, currency: String) {
+
+        val paypal_client_id = "AeXROYuQMXFFQ7H99Qghs07CqXiU1bnzgoc2OlPDzKB4-7J3UoughuHzQ_kysmtCRQust1tpxc2tpsv_"
+        val coreConfig = CoreConfig(paypal_client_id, Environment.SANDBOX)
+        val payPalWebCheckoutClient =
+            PayPalWebCheckoutClient(this@StudentEnroll, coreConfig, "com.example.tutorapp://paypal")
+
+
+
+
+
+        orderCreator.createOrder(amount, currency) { orderId ->
+            if (orderId != null && orderId.isNotEmpty()) {
+                val checkoutRequest = PayPalWebCheckoutRequest(orderId, fundingSource = PayPalWebCheckoutFundingSource.PAYPAL)
+                Log.d("PayPal", "Order ID: $orderId")
+                // Set the listener to handle the result of the checkout process
+
+
+
+
+                payPalWebCheckoutClient.start(
+                    activity = this,
+                    request = checkoutRequest
+                )
+
+
+            } else {
+                println("Failed to create PayPal order.")
+            }
+
+        }
+
     }
 
     private fun enrollStudentWithTutor(tutor: TutorAvailability,tutorId: String) {
@@ -168,5 +222,25 @@ class StudentEnroll : AppCompatActivity() {
     private fun formatDate(date: Long): String {
         val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         return sdf.format(Date(date))
+    }
+    override fun onNewIntent(newIntent: Intent?) {
+        super.onNewIntent(newIntent)
+
+        intent = newIntent
+
+
+        val data = intent?.data
+
+        val opType = data?.getQueryParameter("opType")
+        val token = data?.getQueryParameter("token")
+        Log.d("PayPal", "opType: $opType,  token: $token")
+        Log.d("PayPal", "selectedTutor: $selectedTutor!!")
+
+
+        if (token != null) {
+            orderCreator.captureOrder(token) { success ->}
+            enrollStudentWithTutor(selectedTutor, tutorid)
+
+        }
     }
 }

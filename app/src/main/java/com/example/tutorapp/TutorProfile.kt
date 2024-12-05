@@ -53,7 +53,7 @@ class TutorProfile : AppCompatActivity() {
         val usersRef = FirebaseDatabase.getInstance().reference.child("Users")
 
         // Query Firebase for a tutor where fullName matches tutorId
-        val query = usersRef.orderByChild("fullName").equalTo(tutorId)
+        val query = usersRef.orderByChild("id").equalTo(tutorId)
 
         query.get().addOnSuccessListener { snapshot ->
             if (snapshot.exists()) {

@@ -67,19 +67,34 @@ class EnrollmentAdapter(
 
     private fun cancelEnrollment(enrollment: Enrollment, position: Int) {
         val databaseRef = FirebaseDatabase.getInstance().reference.child("student_tutor_enrollments")
+        val cancelledAppointmentsRef = FirebaseDatabase.getInstance().reference.child("cancelledAppointments")
 
+        val cancellationData = hashMapOf(
+            "tutorId" to enrollment.tutorId,
+            "status" to "Cancellation Details: Study session with: "+ enrollment.studentName + " was cancelled."
+        )
         // Directly reference the enrollment by its unique enrollmentId
         val enrollmentRef = databaseRef.child(enrollment.enrollmentId)  // Use the unique enrollmentId
 
-        enrollmentRef.removeValue()
+
+        cancelledAppointmentsRef.push().setValue(cancellationData)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    enrollments.removeAt(position)  // Remove it from the list
-                    notifyDataSetChanged()  // Update the list in the UI
-                    Toast.makeText(context, "Enrollment canceled successfully.", Toast.LENGTH_SHORT).show()
+                    // Proceed to remove from the original list after logging the cancellation
+                    enrollmentRef.removeValue()
+                        .addOnCompleteListener { removeTask ->
+                            if (removeTask.isSuccessful) {
+                                enrollments.removeAt(position)  // Remove it from the list
+                                notifyDataSetChanged()  // Update the list in the UI
+                                Toast.makeText(context, "Enrollment canceled successfully.", Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(context, "Failed to cancel enrollment.", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                 } else {
-                    Toast.makeText(context, "Failed to cancel enrollment.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Failed to log cancellation.", Toast.LENGTH_SHORT).show()
                 }
             }
+
     }
 }

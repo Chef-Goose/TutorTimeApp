@@ -9,7 +9,7 @@ import kotlinx.coroutines.delay
 
 class MainActivity : AppCompatActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // Enable offline persistence for Firebase Realtime Database

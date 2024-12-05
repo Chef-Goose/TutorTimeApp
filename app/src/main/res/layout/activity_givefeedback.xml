@@ -24,21 +24,26 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true" />
 
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/tb_feedback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="Enter Feedback"
+        android:layout_below="@id/logo"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp" />
+
     <Button
-        android:id="@+id/location_button"
+        android:id="@+id/feedback_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Choose Location"
-        android:layout_below="@id/logo"
+        android:text="Send Feedback"
+        android:layout_below="@id/tb_feedback"
         android:layout_margin="16dp"
         android:backgroundTint="@android:color/holo_blue_light" />
-
-
-    <WebView
-        android:id="@+id/map_webview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
 
 
 </RelativeLayout>

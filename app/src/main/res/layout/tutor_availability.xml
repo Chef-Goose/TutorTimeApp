@@ -59,12 +59,23 @@
         android:spinnerMode="dropdown"
         android:hint="@string/select_time_hint" />
 
+    <Spinner
+        android:id="@+id/spinner_grades"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinner_time"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:entries="@array/grade_levels"
+        android:spinnerMode="dropdown"
+        android:hint="@string/select_grade_hint" />
+
     <!-- Calendar view for picking a date -->
     <CalendarView
         android:id="@+id/calendarView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/spinner_time"
+        android:layout_below="@id/spinner_grades"
         android:layout_marginTop="16dp"
         android:layout_marginStart="31dp" />
 

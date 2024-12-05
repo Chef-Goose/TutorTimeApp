@@ -53,6 +53,7 @@ class EnrollmentAdapter(
         viewTutorButton.setOnClickListener {
             val intent = Intent(context, TutorProfile::class.java)
             intent.putExtra("tutorId", enrollment.tutorId)  // Pass the tutorId
+            intent.putExtra("studentId",enrollment.studentId)
             context.startActivity(intent)
         }
 

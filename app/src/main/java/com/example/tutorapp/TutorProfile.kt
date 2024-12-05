@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.FirebaseDatabase
 import android.widget.ImageButton
 import android.content.Intent
+import android.widget.Button
 
 
 class TutorProfile : AppCompatActivity() {
@@ -17,6 +18,8 @@ class TutorProfile : AppCompatActivity() {
 
         // Retrieve the tutorId (which is the full name) from the Intent
         val tutorId = intent.getStringExtra("tutorId")
+        val studentId = intent.getStringExtra("studentId")
+
         if (tutorId != null && tutorId.isNotEmpty()) {
             fetchTutorProfile(tutorId)
         } else {
@@ -34,6 +37,16 @@ class TutorProfile : AppCompatActivity() {
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK  // Clear previous activities
             startActivity(intent)
         }
+        val feedbackButton: Button = findViewById(R.id.feedback_button)
+        feedbackButton.setOnClickListener {
+            // Code to handle the button click
+            val intent = Intent(this@TutorProfile, StudentFeedback::class.java)
+            intent.putExtra("tutorId",tutorId)
+            intent.putExtra("studentId",studentId)
+            startActivity(intent)
+            Toast.makeText(this, "Feedback Button Clicked!", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     private fun fetchTutorProfile(tutorId: String) {

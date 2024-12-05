@@ -18,6 +18,7 @@ class TutorAvailabilityActivity : AppCompatActivity() {
 
     private lateinit var spinnerCourses: Spinner
     private lateinit var spinnerTime: Spinner
+    private lateinit var spinnerGrades: Spinner
     private lateinit var tbCertificate: TextInputEditText
     private lateinit var btnSaveAvailability: Button
     private lateinit var calendarView: CalendarView
@@ -44,6 +45,7 @@ class TutorAvailabilityActivity : AppCompatActivity() {
         // Initialize the views
         spinnerCourses = findViewById(R.id.spinner_courses)
         spinnerTime = findViewById(R.id.spinner_time)
+        spinnerGrades = findViewById(R.id.spinner_grades)
         tbCertificate = findViewById(R.id.tb_certificate)
         btnSaveAvailability = findViewById(R.id.btn_saveAvailability)
         calendarView = findViewById(R.id.calendarView)
@@ -75,6 +77,8 @@ class TutorAvailabilityActivity : AppCompatActivity() {
         val selectedCourse = spinnerCourses.selectedItem.toString()
         val selectedTime = spinnerTime.selectedItem.toString()
         val certificate = tbCertificate.text.toString()
+        val selectedGrade = spinnerGrades.selectedItem.toString()
+        val finalGrade = selectedGrade.split(" ")[1]
 
         // Check if all required fields are filled and a date is selected
         if (selectedCourse == "Select Course" || selectedTime == "Select Time" || certificate.isEmpty() || selectedDateMillis == 0L) {
@@ -109,7 +113,8 @@ class TutorAvailabilityActivity : AppCompatActivity() {
                     timeSlot = selectedTime,
                     certificate = certificate,
                     date = selectedDateMillis, // Use the selected date in milliseconds
-                    name = fullName  // Store the full name
+                    name = fullName,  // Store the full name
+                    gradeLevel = finalGrade
                 )
 
                 // Push the data to Firebase Realtime Database under the tutor_availabilities node

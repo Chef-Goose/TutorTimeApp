@@ -77,6 +77,18 @@
         android:textSize="18sp"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        android:id="@+id/feedback_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/onboardingTextView"
+
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@android:color/holo_blue_light"
+        android:enabled="true"
+        android:text="Feedback" />
+
     <!-- Home Button -->
     <ImageButton
         android:id="@+id/home_button"

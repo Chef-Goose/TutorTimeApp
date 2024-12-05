@@ -14,8 +14,8 @@ import java.util.*
 
 class CalenderActivity : AppCompatActivity() {
 
-    private lateinit var eventListView: ListView
-    private lateinit var currentUserId: String
+    internal lateinit var eventListView: ListView
+    internal lateinit var currentUserId: String
     private val enrollmentsRef = FirebaseDatabase.getInstance().reference.child("student_tutor_enrollments")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +53,7 @@ class CalenderActivity : AppCompatActivity() {
     }
 
     // Fetch enrollments for the selected date
-    private fun fetchEnrollmentsForDate(dateInLong: Long) {
+    internal fun fetchEnrollmentsForDate(dateInLong: Long) {
         // Normalize the selected date to remove the time part
         val normalizedDateInLong = normalizeDate(dateInLong)
 
@@ -89,7 +89,7 @@ class CalenderActivity : AppCompatActivity() {
     }
 
     // Normalize the date to only the day part (removes the time)
-    private fun normalizeDate(dateInLong: Long): Long {
+    internal fun normalizeDate(dateInLong: Long): Long {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = dateInLong
         calendar.set(Calendar.HOUR_OF_DAY, 0)
@@ -100,14 +100,14 @@ class CalenderActivity : AppCompatActivity() {
     }
 
     // Convert the selected date (year, month, day) to Long timestamp format
-    private fun formatDateToLong(year: Int, month: Int, dayOfMonth: Int): Long {
+    internal fun formatDateToLong(year: Int, month: Int, dayOfMonth: Int): Long {
         val calendar = Calendar.getInstance()
         calendar.set(year, month - 1, dayOfMonth)  // Adjust for 0-based months
         return calendar.timeInMillis  // Return the timestamp in milliseconds
     }
 
     // Get today's date in Long timestamp format
-    private fun getTodayDateInLong(): Long {
+    internal fun getTodayDateInLong(): Long {
         val calendar = Calendar.getInstance()
         return calendar.timeInMillis  // Return today's timestamp
     }

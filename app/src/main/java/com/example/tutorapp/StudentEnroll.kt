@@ -74,7 +74,7 @@ class StudentEnroll : AppCompatActivity() {
                     for (tutorSnapshot in snapshot.children) {
                         val tutorAvailability = tutorSnapshot.getValue(TutorAvailability::class.java)
                         if (tutorAvailability != null && tutorAvailability.date == date && tutorAvailability.gradeLevel.toInt() >= grade.toInt()) {
-                            addTutorToTable(tutorAvailability)
+                            addTutorToTable(tutorAvailability,tutorSnapshot.key!!)
                             tutorFound = true
                         }
                     }
@@ -93,7 +93,7 @@ class StudentEnroll : AppCompatActivity() {
         })
     }
 
-    private fun addTutorToTable(tutor: TutorAvailability) {
+    private fun addTutorToTable(tutor: TutorAvailability,tutorId: String) {
         val row = TableRow(this)
 
         // Create a TextView for the tutor's name
@@ -116,7 +116,7 @@ class StudentEnroll : AppCompatActivity() {
         enrollButton.text = "Enroll"
         enrollButton.layoutParams = TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f)
         enrollButton.setOnClickListener {
-            enrollStudentWithTutor(tutor)
+            enrollStudentWithTutor(tutor,tutorId)
         }
 
         // Add all the views to the row
@@ -129,7 +129,7 @@ class StudentEnroll : AppCompatActivity() {
         tableLayout.addView(row)
     }
 
-    private fun enrollStudentWithTutor(tutor: TutorAvailability) {
+    private fun enrollStudentWithTutor(tutor: TutorAvailability,tutorId: String) {
         if (currentUserId.isNotEmpty()) {
             // Create a new enrollment entry in the database
             val enrollment = mapOf(
@@ -143,6 +143,7 @@ class StudentEnroll : AppCompatActivity() {
             // Add the enrollment to the "student_tutor_enrollments" node
             enrollmentsRef.push().setValue(enrollment)
                 .addOnSuccessListener {
+                    removeTutorAvailability(tutorId)
                     Toast.makeText(this, "You have successfully enrolled with ${tutor.name}!", Toast.LENGTH_SHORT).show()
                 }
                 .addOnFailureListener {
@@ -151,6 +152,17 @@ class StudentEnroll : AppCompatActivity() {
         } else {
             Toast.makeText(this, "You need to log in to enroll.", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun removeTutorAvailability(tutorId: String) {
+        // Remove the tutor's availability from the "tutor_availabilities" node
+        availabilityRef.child(tutorId).removeValue()
+            .addOnSuccessListener {
+                Toast.makeText(this, "Tutor availability removed.", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Failed to remove tutor availability.", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun formatDate(date: Long): String {

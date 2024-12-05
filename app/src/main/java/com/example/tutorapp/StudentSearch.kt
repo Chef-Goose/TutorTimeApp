@@ -61,10 +61,10 @@ class StudentSearch : AppCompatActivity() {
             }
         }
 
-        btnInstant.setOnClickListener{
-            val intent = Intent(this@StudentSearch, StudentInstantSession::class.java)
-            startActivity(intent)
-        }
+       // btnInstant.setOnClickListener{
+         //   val intent = Intent(this@StudentSearch, StudentInstantSession::class.java)
+           // startActivity(intent)
+        //}
 
         // Back Button logic
         val btnBack = findViewById<ImageButton>(R.id.back_button)

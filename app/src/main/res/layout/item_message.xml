@@ -9,6 +9,7 @@
         android:id="@+id/message_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="serif-monospace"
         android:textSize="16sp"
         android:padding="10dp"
         android:maxWidth="300dp"

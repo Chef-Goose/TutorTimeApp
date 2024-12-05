@@ -3,6 +3,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:background="#F2B536">
 
     <!-- Back Button -->
@@ -37,6 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Name: John Doe"
+        android:fontFamily="serif-monospace"
         android:textSize="30sp"
         android:textStyle="bold"
         android:layout_below="@id/ProfilePicture"
@@ -49,6 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Role: Tutor"
+        android:fontFamily="serif-monospace"
         android:textSize="26sp"
         android:layout_below="@id/fullNameTextView"
         android:layout_centerHorizontal="true"
@@ -60,6 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Email: johndoe@gmail.com"
+        android:fontFamily="serif-monospace"
         android:textSize="26sp"
         android:layout_below="@id/roleTextView"
         android:layout_centerHorizontal="true"

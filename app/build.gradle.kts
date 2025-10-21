@@ -1,3 +1,4 @@
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -16,6 +17,24 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val oauthKey = project.findProperty("OAUTH_KEY") as String?
+        val googleMapKey = project.findProperty("GOOGLE_MAP_KEY") as String?
+
+        buildConfigField("String", "OAUTH_KEY", "\"${oauthKey}\"")
+        buildConfigField("String", "GOOGLE_MAP_KEY", "\"${googleMapKey}\"")
+    }
+    applicationVariants.all {
+        val variant = this
+        val outputDir = File(buildDir, "generated/res/google_maps/${variant.name}")
+        outputDir.mkdirs()
+        val file = File(outputDir, "google_maps_api.xml")
+        file.writeText("""
+            <resources>
+                <string name="googleMapKey">${properties["googleMapKey"]}</string>
+            </resources>
+        """.trimIndent())
+        variant.registerGeneratedResFolders(files(outputDir).builtBy(file))
     }
 
     buildTypes {

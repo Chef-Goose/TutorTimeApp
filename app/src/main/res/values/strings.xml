@@ -53,7 +53,7 @@
     <string name="select_course_hint">Select Course</string>
     <string name="select_grade_hint">Select Grade</string>
     <string name="select_time_hint">Select Time</string>
-    <string name="google_map_api_key">REMOVED</string>
+    <string name="google_map_api_key">hiddenWIPFeature</string>
 
     <string name="terms_of_use">
         <![CDATA[
